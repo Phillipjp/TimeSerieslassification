@@ -26,13 +26,13 @@ public class MultivariateConverter {
         writer.write("@relation input\n");
         writer.write("@attribute input relational\n");
         
-        for (int i = 1; i < 33; i++) {
+        for (int i = 1; i < 7; i++) {
             writer.write("\t@attribute t" + i + " numeric\n");
         }
         
         writer.write("@end input\n");
         writer.write("@attribute activity {Badminton_Smash, Badminton_Clear, Squash_ForehandBoast, Squash_BackhandBoast}\n");
-        writer.write("@end data\n\n");
+        writer.write("@data\n\n");
         
         for(Instance i: data){
             writer.write("\"");
@@ -77,8 +77,8 @@ public class MultivariateConverter {
     
     public static void main(String[] args) throws IOException {
         
-        Instances data = loadData("/Users/phillipperks/Desktop/3rd Year Project/ARFF_Files/format.arff");
-        convert("/Users/phillipperks/Desktop/3rd Year Project/ARFF_Files/formatMULTI.arff", data);
+        Instances data = loadData("/Users/phillipperks/Desktop/3rd-Year-Project/ARFF_Files/Cross Validation/Combination/MVMotionUni.arff");
+        convert("/Users/phillipperks/Desktop/3rd-Year-Project/ARFF_Files/Cross Validation/Combination/MVMotionMulti.arff", data);
         
     }
     
