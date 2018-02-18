@@ -5,8 +5,6 @@
  */
 package activityrecognitionproject;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import weka.classifiers.Classifier;
 import weka.core.Capabilities;
 import weka.core.Instance;
