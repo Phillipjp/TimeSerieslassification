@@ -39,6 +39,7 @@ public class ActivityRecognitionProject {
         double aveBasicDTW = 0;
         double aveDTWI = 0;
         double aveDTWD = 0;
+        double aveEnhancedDTWI = 0;
         
         
         for(int fold=0; fold<totalFolds; fold++){
@@ -55,11 +56,15 @@ public class ActivityRecognitionProject {
 //            aveBayes = runBayes(aveBayes,test, train, fold);
 //            aveKNN = runKNN(aveKNN,test, train, fold, 3 , "KNN3");
 //            aveJ48 = runJ48(aveJ48,test, train, fold);
-//            aveRotation = runRotationalForest(aveRotation,test, train, fold);
-//            aveRF = runRandomForest(aveRF,test, train, fold, 100, "RANDOMFOREST100");
+            aveRotation = runRotationalForest(aveRotation,test, train, fold);
+            aveRF = runRandomForest(aveRF,test, train, fold, 100, "RANDOMFOREST100");
             //aveBasicDTW = runBasicDTW(aveBasicDTW,test, train, fold);
             aveDTWI = runDTWI(aveDTWI, multiTest, multiTrain, fold);
-            aveDTWD = runDTWD(aveDTWD, multiTest, multiTrain, fold);
+            //aveDTWD = runDTWD(aveDTWD, multiTest, multiTrain, fold);
+//            for(int i=1; i<32;i++){
+//                aveEnhancedDTWI[i] = runEnhancedDTWI(aveEnhancedDTWI[i], multiTest, multiTrain, fold, i);
+//            }
+            aveEnhancedDTWI = runEnhancedDTWI(aveEnhancedDTWI, multiTest, multiTrain, fold);
 
             
             
@@ -74,7 +79,10 @@ public class ActivityRecognitionProject {
         System.out.println("Average Basic DTW: " + aveBasicDTW/totalFolds);
         System.out.println("Average DTWI: " + aveDTWI/totalFolds);
         System.out.println("Average DTWD: " + aveDTWD/totalFolds);
-        
+        System.out.println("Average Enhanced DTWI: " + aveEnhancedDTWI/totalFolds);
+//        for (int i = 0; i < 32; i++) {
+//            System.out.println("Average Enhanced DTWI " + i + " : " + aveEnhancedDTWI[i]/totalFolds);
+//        }
         
     }
     
@@ -88,6 +96,21 @@ public class ActivityRecognitionProject {
     
     public static double runDTWI(double aveDTWI, Instances test, Instances train, int fold) throws Exception{
         ClassifierWrapper dtw = new ClassifierWrapper(new DTWI(), test, train);
+        dtw.classifyAllInstances();
+        //dtw.writeCsvFile("DTWITest" + fold, "DTWI");
+        aveDTWI += dtw.getAccuracy();
+        return aveDTWI;
+    }
+    
+    public static double runEnhancedDTWI(double aveDTWI, Instances test, Instances train, int fold) throws Exception{
+        ClassifierWrapper dtw = new ClassifierWrapper(new Enhanced_DTWI(), test, train);
+        dtw.classifyAllInstances();
+        //dtw.writeCsvFile("DTWITest" + fold, "DTWI");
+        aveDTWI += dtw.getAccuracy();
+        return aveDTWI;
+    }
+    public static double runEnhancedDTWI(double aveDTWI, Instances test, Instances train, int fold, int warp_Size) throws Exception{
+        ClassifierWrapper dtw = new ClassifierWrapper(new Enhanced_DTWI(warp_Size), test, train);
         dtw.classifyAllInstances();
         //dtw.writeCsvFile("DTWITest" + fold, "DTWI");
         aveDTWI += dtw.getAccuracy();
