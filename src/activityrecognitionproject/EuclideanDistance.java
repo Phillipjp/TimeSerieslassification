@@ -37,57 +37,31 @@ public class EuclideanDistance implements Classifier {
         }
         
     }
-   
-    //A nested class that stores the distance of a training instance from a test
-    //instance and the class of the training instance
-    public static class DistanceAndClass{
-            public double distance;
-            public double c;
-            public DistanceAndClass (double distance, double c){
-                this.distance = distance;
-                this.c = c;
-            } 
-            
-            //A method that returns the smaller distance
-            public static class CompareAscending implements Comparator<DistanceAndClass>{
-                @Override
-                public int compare(DistanceAndClass a, DistanceAndClass b){
-                    return (int)(a.distance-b.distance);     
-                }
-            }
     
-        
-    }
-    
-    //Sorts an array of DissanceAndClass objects in assending order accordinf to distance
-    public static DistanceAndClass[] sortAscending(DistanceAndClass[] items) {
-            Comparator compAsc = new DistanceAndClass.CompareAscending();
-            Arrays.sort(items, compAsc);
-            return items;
+    protected double euclidean(double a, double b){
+        return Math.pow(a-b,2);
     }
     
     @Override
     public double classifyInstance(Instance instance) throws Exception {
         //calculate all euclidean distances between the test intance and all
         //trainign instances
-        double [] distances = new double [noInstances];
-        for(int i=0; i<distances.length; i++){
+        double distance = 0;
+        double currentSmallest = Double.MAX_VALUE;
+        double predictedClass = -1;
+        for(int i=0; i<noInstances; i++){
             for(int a=0; a<noAttributes-1; a++){
-                distances[i] += Math.pow(trainingData[i][a] - instance.value(a),2);
+                distance += euclidean(trainingData[i][a],instance.value(a));
             }
-        }
-        //create an array containing the distance and class for each instance
-        DistanceAndClass [] dc = new DistanceAndClass [noInstances];
-        for(int i=0; i< noInstances; i++){
-            dc[i] = new DistanceAndClass(distances[i], trainingInstances.instance(i).value(noAttributes-1));
+            if(distance<currentSmallest){
+                currentSmallest = distance;
+                predictedClass = trainingInstances.get(i).classValue();
+            }
+            distance = 0;
         }
         
-        //sort dc according to distance
-        dc = sortAscending(dc);
+        return predictedClass;
         
-        //return the class of the instance with the shortest distance from the
-        //test instance
-        return dc[0].c;
     }
 
     @Override

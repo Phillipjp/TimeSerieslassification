@@ -15,7 +15,9 @@ for TSC, the basic univariate syntax is
  */
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import utilities.ClassifierTools;
 import weka.classifiers.trees.J48;
 import weka.core.Instance;
@@ -127,6 +129,51 @@ public class MultiVariateTests {
             }
             System.out.println("");
         }
+        
+        System.out.println(trainingData.length);
+        System.out.println(trainingData[0].length);
+        System.out.println(trainingData[0][0].length);
+        
+        int [] predictions = {1, 1, 2, 2, 3};
+        
+        int currentTie = -1;
+        HashSet<Integer> classes = new HashSet<>();
+        for (int i = 0; i < predictions.length; i++) {
+            if(predictions[i] > currentTie){
+                 classes.clear();
+                 currentTie = predictions[i];
+                 classes.add(i);
+            }
+            else{
+                for (int j = 0; j < predictions.length; j++) {
+                    if (i != j) {
+                        if(predictions[i] == predictions[j]){
+                            if(predictions[i] == currentTie){
+                                classes.add(i);
+                                currentTie = predictions[i];
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+        int predictedClass = -1;
+         ArrayList<Integer> classesList = new ArrayList<>(classes);
+        if(classesList.size()==1){
+            predictedClass = classesList.get(0);
+        }
+        System.out.println("DUPLICATES TEST");
+        System.out.println(classes);
+        System.out.println("PREDICTED CLASS: \t" + predictedClass);
+        
+//        Instances all = ClassifierTools.loadData("/Users/phillipperks/Desktop/3rd-Year-Project/ARFF_Files/Cross Validation/Combination/MVMotionUni.arff");
+//
+//        
+//        Instances newInstances = new Instances(all, 5);
+//        System.out.println(newInstances.numInstances());
+//        newInstances.add(all.instance(0));
+//        System.out.println(newInstances.numInstances());
     }
     public static double [][] transposeArray(double [][] array){
         int width = array.length;

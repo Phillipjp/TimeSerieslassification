@@ -18,13 +18,7 @@ import weka.core.Instances;
  *
  * @author phillipperks
  */
-public class Enhanced_DTWI implements Classifier {
-    
-    double [][][] trainingData;
-    int noClasses;
-    int noAttributes;
-    int noInstances;
-    Instances trainingInstances;
+public class Enhanced_DTWI extends DTWI {
     int warp_size;
     
     public Enhanced_DTWI(int warp_size){
@@ -56,59 +50,12 @@ public class Enhanced_DTWI implements Classifier {
             trainingData[i]=train;
         }
         
-        this.warp_size = setWarpSize();
+        setWarpSize();
         
     }
     
-   
-   public static Instances [] crossValidationData(Instances data){
-        Instances [] split = new Instances [2];
-        
-
-        ArrayList<Integer> indexes = new ArrayList<>();
-        for(int i=0; i<data.numInstances(); i++){
-            indexes.add(i);
-        }
-        //shuffle the list so it's randomised
-        Collections.shuffle(indexes);
-        
-        //create a random subset of Instances from the original data 
-        int subsetSize = (int)(indexes.size() * 0.5);
-        Instances train = new Instances(data, subsetSize);
-        for(int i=0; i<subsetSize; i++){
-            train.add(data.instance(indexes.get(i)));
-        }
-        
-        
-        
-        Instances test = new Instances(data, subsetSize);
-        
-        for(int i=subsetSize; i<indexes.size(); i++){
-            test.add(data.instance(indexes.get(i)));
-        }
-        
-        split[0] = train;
-        split[1] = test;
-        
-        return split;
-
-    }
-    
-   
-    
-    //calcualte the minimum of 3 values
-    public double min(double a, double b, double c){
-        double [] min = {a,b,c};
-        Arrays.sort(min);
-        return min[0];
-    }
-    
-    //calculate euclidean distance between two points
-    public double euclidean(double a, double b){
-        return Math.pow(a-b,2);
-    }
-    
-    public double distance(double [] train, double [] test, int warp_size){
+    @Override
+    protected double distance(double [] train, double [] test){
         //initialise a matrix and set all valuse to max to prevent an incorrect 
         //distance being returned and used
         double [] [] matrix = new double [train.length][train.length];
@@ -156,53 +103,20 @@ public class Enhanced_DTWI implements Classifier {
         return matrix[matrix.length-1][matrix.length-1];
     }
     
-    public double [][] transposeArray(double [][] array){
-        int width = array.length;
-        int height = array[0].length;
-        double[][] array_new = new double[height][width];
-        for (int w = 0; w < width; w++) {
-            for (int h = 0; h < height; h++) {
-              array_new[h][w] = array[w][h];
-            }
-        }
-        return array_new;
-    }
+
     
-     public int setWarpSize(){
+     private void setWarpSize(){
         
         Instances [] data = InstanceTools.resampleInstances(trainingInstances, 1, .5);
-        //Instances [] data = crossValidationData(this.trainingInstances);
-        double [][][] cvTrain = new double [data[0].numInstances()][][];
-        double [][][] cvTest = new double [data[1].numInstances()][][];
-        Instance ins;
-        Instances split;
-        for(int i=0;i<data[0].numInstances();i++){
-           ins= data[0].instance(i);
-           split=ins.relationalValue(0);
-           double[][] train = new double[split.numInstances()][];
-            for(int j=0;j<split.numInstances();j++){
-                train[j]=split.instance(j).toDoubleArray();
-            }
-            train = transposeArray(train);
-            cvTrain[i]=train;
-        }
-        
-        for(int i=0;i<data[1].numInstances();i++){
-           ins= data[1].instance(i);
-           split=ins.relationalValue(0);
-           double[][] test = new double[split.numInstances()][];
-            for(int j=0;j<split.numInstances();j++){
-                test[j]=split.instance(j).toDoubleArray();
-            }
-            test = transposeArray(test);
-            cvTest[i]=test;
-        }
+        double [][][] cvTrain = makeDataMultiVariate(data[0], data[0].numInstances());
+        double [][][] cvTest = makeDataMultiVariate(data[1], data[1].numInstances());
         
         int maxWarpSize = cvTrain[0][0].length;
         int correct [] = new int [maxWarpSize];
         
         //for all possible values of the warping window size
         for(int i=0; i<maxWarpSize; i++){
+            this.warp_size = i;
             //for all test data
             for(int test=0; test<cvTest.length; test++){
                 double temp =0;
@@ -213,15 +127,13 @@ public class Enhanced_DTWI implements Classifier {
                     //for each series in the train data
                     for(int series=0; series < cvTrain[train].length; series++ ){
                         if(temp<minValue){
-                            temp+= distance(cvTrain[train][series], cvTest[test][series], i);
+                            temp+= distance(cvTrain[train][series], cvTest[test][series]);
                         }
                     }
-                    
                     if(temp<minValue){
                         minValue=temp;
                         minClass = data[0].instance(train).classValue();
                     }
-                    
                     temp = 0;
                 }
                 if(minClass == data[1].instance(test).classValue()){
@@ -245,42 +157,10 @@ public class Enhanced_DTWI implements Classifier {
                 warp = i;
             }
         }
-         System.out.println("");
         
-        return warp;
+        this.warp_size =  warp;
     }
     
-    @Override
-    public double classifyInstance(Instance instance) throws Exception {
-        double minValue = Double.MAX_VALUE;
-        double minClass = -1;
-        //put the test instance in an array
-        Instances testSplit = instance.relationalValue(0);
-        double[][] test = new double[testSplit.numInstances()][];
-        for(int j=0;j<testSplit.numInstances();j++){
-            test[j]=testSplit.instance(j).toDoubleArray();
-        }
-        //transpose array
-       test = transposeArray(test);
-        double temp = 0;
-        //for all training instsnces find the distance
-        for(int i=0; i<trainingInstances.numInstances(); i++){
-            //for each series in the test data get the distance
-            for(int j=0 ;j<trainingData[i].length; j++){
-                //only calculate distance if it's possible it might be the best
-                if(temp<minValue){
-                    temp += distance(trainingData[i][j], test[j], this.warp_size);
-                }  
-            }
-            //check if the current distance is less then the current min distance
-            if(temp<minValue){
-                minValue = temp;
-                minClass = trainingInstances.instance(i).classValue();
-            }
-            temp = 0;
-        }
-        return minClass;
-    }
 
     @Override
     public double[] distributionForInstance(Instance instance) throws Exception {

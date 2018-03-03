@@ -23,23 +23,38 @@ public class ClassifierWrapper <C extends weka.classifiers.Classifier> {
     
     private C classifier;
     private int correct;
+    private int correctSport;
     private double accuracy;
+    private double sportAccuracy;
     private Instances test;
     private Instances train;
     
     public ClassifierWrapper(C classifier, Instances test, Instances train ) throws Exception{
         this.classifier = classifier;
         this.correct = 0;
+        this.correctSport = 0;
         this.train = train;
         this.test = test;
         
         this.classifier.buildClassifier(this.train);
         for(Instance i: test){
-            if(this.classifier.classifyInstance(i) == i.value(this.test.numAttributes()-1)){
+            double result = this.classifier.classifyInstance(i);
+            if(result == i.value(this.test.numAttributes()-1)){
                 this.correct++;
             }
+            if(result == 0 && i.value(this.test.numAttributes()-1) == 1 || 
+                    result == 1 && i.value(this.test.numAttributes()-1) == 0 ||
+                    result == 2 && i.value(this.test.numAttributes()-1) == 3 ||
+                    result == 3 && i.value(this.test.numAttributes()-1) == 2 ||
+                    result == i.value(this.test.numAttributes()-1)){
+                this.correctSport++; 
+            }
+            
         }
         this.accuracy = (double)this.correct/test.numInstances();
+        this.sportAccuracy = (double)this.correctSport/test.numInstances();
+        
+        
     }
     
     //returns the classifier
@@ -65,6 +80,21 @@ public class ClassifierWrapper <C extends weka.classifiers.Classifier> {
     //returns accuracy of classifier
     public double getAccuracy(){
         return accuracy;
+    }
+    
+    //returns accuracy of classifier
+    public double getSportAccuracy(){
+        return sportAccuracy;
+    }
+    
+    //returns number of times the correct sport was classified
+    public double getCorrectSport(){
+        return correctSport;
+    }
+    
+    //returns number of times the correct action was classified
+    public double getCorrect(){
+        return correct;
     }
     
     //classifies all instances and prints the accuracy as well as a confusion matrix

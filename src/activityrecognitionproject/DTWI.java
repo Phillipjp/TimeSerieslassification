@@ -15,13 +15,9 @@ import weka.core.Instances;
  *
  * @author phillipperks
  */
-public class DTWI implements Classifier {
+public class DTWI extends Basic_DTW{
     
     double [][][] trainingData;
-    int noClasses;
-    int noAttributes;
-    int noInstances;
-    Instances trainingInstances;
     
     @Override
     public void buildClassifier(Instances data) throws Exception {
@@ -31,32 +27,28 @@ public class DTWI implements Classifier {
         noClasses = data.numClasses();
         noAttributes = split.numAttributes();
         noInstances = data.numInstances();
-        trainingData = new double [noInstances][][];
-        for(int i=0;i<noInstances;i++){
+        trainingData = makeDataMultiVariate(data, noInstances);
+    }
+    
+    protected double [][][] makeDataMultiVariate(Instances data, int length){
+         double [][][] multiVariateData = new double [length][][];
+         Instance ins;
+         Instances split;
+         for(int i=0;i<length;i++){
            ins= data.instance(i);
            split=ins.relationalValue(0);
-           double[][] train = new double[split.numInstances()][];
+           double[][] singleInstance = new double[split.numInstances()][];
             for(int j=0;j<split.numInstances();j++){
-                train[j]=split.instance(j).toDoubleArray();
+                singleInstance[j]=split.instance(j).toDoubleArray();
             }
-            train = transposeArray(train);
-            trainingData[i]=train;
+            singleInstance = transposeArray(singleInstance);
+            multiVariateData[i]=singleInstance;
         }
+        
+         return multiVariateData;
     }
     
-    //calcualte the minimum of 3 values
-    public double min(double a, double b, double c){
-        double [] min = {a,b,c};
-        Arrays.sort(min);
-        return min[0];
-    }
-    
-    //calculate euclidean distance between two points
-    public double euclidean(double a, double b){
-        return Math.pow(a-b,2);
-    }
-    
-    public double distance(double [] train, double [] test){
+    protected double distance(double [] train, double [] test){
         //initialise a matrix and set all valuse to max to prevent an incorrect 
         //distance being returned and used
         double [] [] matrix = new double [train.length][train.length];
@@ -68,13 +60,13 @@ public class DTWI implements Classifier {
         
         //calculate distances for the first column
         for(int i=0; i<matrix.length; i++){
-            //euclidean distance between all the train values and test value
+            //euclidean distance between all the singleInstance values and test value
             //at 0 in time
             matrix[i][0]= euclidean(train[i], test[0]);
         }
         //calculate distances for the first row
         for(int j=0; j<matrix.length; j++){
-            //euclidean distance between all the test values and train value
+            //euclidean distance between all the test values and singleInstance value
             //at 0 in time
             matrix[0][j]= euclidean(train[0], test[j]);
         }
@@ -91,7 +83,7 @@ public class DTWI implements Classifier {
                 if(i!=0 && j!=0){
                     //Stop the path deviating too far from the diagonal
                     if(j<i+(matrix.length/4) && j>i-(matrix.length/4)){
-                        //calcualte euclidean disatnce between train and test instance attributes
+                        //calcualte euclidean disatnce between singleInstance and test instance attributes
                         distance = euclidean(train[i], test[j]);
                         //and the minimum value from the surrounding 3 values
                         distance += min(matrix[i][j-1], matrix[i-1][j], matrix[i-1][j-1]);
@@ -104,7 +96,7 @@ public class DTWI implements Classifier {
         return matrix[matrix.length-1][matrix.length-1];
     }
     
-    public double [][] transposeArray(double [][] array){
+    protected double [][] transposeArray(double [][] array){
         int width = array.length;
         int height = array[0].length;
         double[][] array_new = new double[height][width];
@@ -147,6 +139,7 @@ public class DTWI implements Classifier {
         }
         return minClass;
     }
+    
 
     @Override
     public double[] distributionForInstance(Instance instance) throws Exception {

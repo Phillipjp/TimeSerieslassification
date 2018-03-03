@@ -15,13 +15,9 @@ import weka.core.Instances;
  *
  * @author phillipperks
  */
-public class DTWD implements Classifier{
+public class DTWD extends Basic_DTW{
     
     double [][][] trainingData;
-    int noClasses;
-    int noAttributes;
-    int noInstances;
-    Instances trainingInstances;
     
     @Override
     public void buildClassifier(Instances data) throws Exception {
@@ -43,19 +39,7 @@ public class DTWD implements Classifier{
         }
     }
 
-    //find the minimum of 3 values
-    public double min(double a, double b, double c){
-        double [] min = {a,b,c};
-        Arrays.sort(min);
-        return min[0];
-    }
-    
-    //calculate euclidean distance between two points
-    public double euclidean(double a, double b){
-        return Math.pow(a-b,2);
-    }
-    
-    public double distance(double [][] train, double [][] test, double currentMin){
+    protected double distance(double [][] train, double [][] test, double currentMin){
         //initialise a matrix and set all valuse to max to prevent an incorrect 
         //distance being returned and used
         double [] [] matrix = new double [train.length][train.length];
@@ -116,7 +100,7 @@ public class DTWD implements Classifier{
         return matrix[matrix.length-1][matrix.length-1];
     }
     
-    public double [][] transposeArray(double [][] array){
+    protected double [][] transposeArray(double [][] array){
         int width = array.length;
         int height = array[0].length;
         double[][] array_new = new double[height][width];

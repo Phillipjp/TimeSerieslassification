@@ -33,13 +33,16 @@ public class ActivityRecognitionProject {
         double aveBayes = 0;
         double aveKNN =  0;
         double aveJ48 = 0;
-        double aveRF = 0;
-        double aveEuclid = 0;
-        double aveRotation = 0;
-        double aveBasicDTW = 0;
-        double aveDTWI = 0;
-        double aveDTWD = 0;
-        double aveEnhancedDTWI = 0;
+        double aveRF [] = new double [2];
+        double aveEuclid[] = new double [2];
+        double aveRotation [] = new double [2];
+        double aveBasicDTW [] = new double [2];
+        double aveDTWI [] = new double [2];
+        double aveDTWD [] = new double [2];
+        double aveEnhancedDTWI [] = new double [2];
+        double aveKNNDTWI3 [] = new double [2];
+        double aveKNNDTWI5 [] = new double [2];
+        double aveKNNDTWI7 [] = new double [2];
         
         
         for(int fold=0; fold<totalFolds; fold++){
@@ -56,98 +59,142 @@ public class ActivityRecognitionProject {
 //            aveBayes = runBayes(aveBayes,test, train, fold);
 //            aveKNN = runKNN(aveKNN,test, train, fold, 3 , "KNN3");
 //            aveJ48 = runJ48(aveJ48,test, train, fold);
-            aveRotation = runRotationalForest(aveRotation,test, train, fold);
-            aveRF = runRandomForest(aveRF,test, train, fold, 100, "RANDOMFOREST100");
-            //aveBasicDTW = runBasicDTW(aveBasicDTW,test, train, fold);
-            aveDTWI = runDTWI(aveDTWI, multiTest, multiTrain, fold);
-            //aveDTWD = runDTWD(aveDTWD, multiTest, multiTrain, fold);
+//            aveRotation = runRotationalForest(aveRotation,test, train, fold);
+//            aveRF = runRandomForest(aveRF,test, train, fold, 100, "RANDOMFOREST100");
+//            aveBasicDTW = runBasicDTW(aveBasicDTW,test, train, fold);
+//            aveDTWI = runDTWI(aveDTWI, multiTest, multiTrain, fold);
+//            aveDTWD = runDTWD(aveDTWD, multiTest, multiTrain, fold);
 //            for(int i=1; i<32;i++){
 //                aveEnhancedDTWI[i] = runEnhancedDTWI(aveEnhancedDTWI[i], multiTest, multiTrain, fold, i);
 //            }
-            aveEnhancedDTWI = runEnhancedDTWI(aveEnhancedDTWI, multiTest, multiTrain, fold);
+            //aveEnhancedDTWI = runEnhancedDTWI(aveEnhancedDTWI, multiTest, multiTrain, fold);
+            aveKNNDTWI3 = runKNNDTWI(aveKNNDTWI3, multiTest, multiTrain, fold, 3);
+            aveKNNDTWI5 = runKNNDTWI(aveKNNDTWI5, multiTest, multiTrain, fold, 5);
+            aveKNNDTWI7 = runKNNDTWI(aveKNNDTWI7, multiTest, multiTrain, fold, 7);
+            
 
             
             
         }
 
-        System.out.println("Average Euclidean: " + aveEuclid/totalFolds);
+        System.out.println("Euclidean Distance Accuracy: " + aveEuclid[0]/totalFolds);
+        System.out.println("Euclidean Distance Sport Accuracy: " + aveEuclid[1]/totalFolds);
         System.out.println("Average Bayes: " + aveBayes/totalFolds);
+        System.out.println("");
         System.out.println("Average KNN: " + aveKNN/totalFolds);
         System.out.println("Average J48: " + aveJ48/totalFolds);
-        System.out.println("Average Rotational Forest: " + aveRotation/totalFolds);
-        System.out.println("Average Random Forest: " + aveRF/totalFolds);
-        System.out.println("Average Basic DTW: " + aveBasicDTW/totalFolds);
-        System.out.println("Average DTWI: " + aveDTWI/totalFolds);
-        System.out.println("Average DTWD: " + aveDTWD/totalFolds);
-        System.out.println("Average Enhanced DTWI: " + aveEnhancedDTWI/totalFolds);
+        System.out.println("");
+        System.out.println("Rotational Forest Accuracy: " + aveRotation[0]/totalFolds);
+        System.out.println("Rotational Forest Sport Accuracy: " + aveRotation[1]/totalFolds);
+        System.out.println("");
+        System.out.println("Random Forest Accuracy: " + aveRF[0]/totalFolds);
+        System.out.println("Random Forest Sport Accuracy: " + aveRF[1]/totalFolds);
+        System.out.println("");
+        System.out.println("Basic DTW Accuracy: " + aveBasicDTW[0]/totalFolds);
+        System.out.println("Basic DTW Sport Accuracy: " + aveBasicDTW[1]/totalFolds);
+        System.out.println("");
+        System.out.println("DTWD Accuracy: " + aveDTWD[0]/totalFolds);
+        System.out.println("DTWD Sport Accuracy: " + aveDTWD[1]/totalFolds);
+        System.out.println("");
+        System.out.println("DTWI Accuracy: " + aveDTWI[0]/totalFolds);
+        System.out.println("DTWI Sport Accuracy: " + aveDTWI[1]/totalFolds);
+        System.out.println("");
+        System.out.println("Enhanced DTWI Accuracy: " + aveEnhancedDTWI[0]/totalFolds);
+        System.out.println("Enhanced DTWI Sport Accuracy: " + aveEnhancedDTWI[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 3 Accuracy: " + aveKNNDTWI3[0]/totalFolds);
+        System.out.println("KNN_DTWI 3 Sport Accuracy: " + aveKNNDTWI3[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 5 Accuracy: " + aveKNNDTWI5[0]/totalFolds);
+        System.out.println("KNN_DTWI 5 Sport Accuracy: " + aveKNNDTWI5[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 7 Accuracy: " + aveKNNDTWI7[0]/totalFolds);
+        System.out.println("KNN_DTWI 7 Sport Accuracy: " + aveKNNDTWI7[1]/totalFolds);
 //        for (int i = 0; i < 32; i++) {
 //            System.out.println("Average Enhanced DTWI " + i + " : " + aveEnhancedDTWI[i]/totalFolds);
 //        }
         
     }
+    public static double [] runKNNDTWI(double aveDTWI[], Instances test, Instances train, int fold, int k) throws Exception{
+        ClassifierWrapper dtw = new ClassifierWrapper(new KNN_DTWI(k), test, train);
+        dtw.classifyAllInstances();
+        //dtw.writeCsvFile("DTWITest" + fold, "DTWI");
+        aveDTWI[0] += dtw.getAccuracy();
+        aveDTWI[1] += dtw.getSportAccuracy();
+        return aveDTWI;
+    }
     
-    public static double runDTWD(double aveDTWD, Instances test, Instances train, int fold) throws Exception{
+    public static double [] runDTWD(double aveDTWD[], Instances test, Instances train, int fold) throws Exception{
         ClassifierWrapper dtw = new ClassifierWrapper(new DTWD(), test, train);
         dtw.classifyAllInstances();
         //dtw.writeCsvFile("DTWITest" + fold, "DTWI");
-        aveDTWD += dtw.getAccuracy();
+        aveDTWD[0] += dtw.getAccuracy();
+        aveDTWD[1] += dtw.getSportAccuracy();
+        
         return aveDTWD;
     }
     
-    public static double runDTWI(double aveDTWI, Instances test, Instances train, int fold) throws Exception{
+    public static double [] runDTWI(double aveDTWI[], Instances test, Instances train, int fold) throws Exception{
         ClassifierWrapper dtw = new ClassifierWrapper(new DTWI(), test, train);
         dtw.classifyAllInstances();
         //dtw.writeCsvFile("DTWITest" + fold, "DTWI");
-        aveDTWI += dtw.getAccuracy();
+        aveDTWI[0] += dtw.getAccuracy();
+        aveDTWI[1] += dtw.getSportAccuracy();
         return aveDTWI;
     }
     
-    public static double runEnhancedDTWI(double aveDTWI, Instances test, Instances train, int fold) throws Exception{
+    public static double [] runEnhancedDTWI(double aveDTWI[], Instances test, Instances train, int fold) throws Exception{
         ClassifierWrapper dtw = new ClassifierWrapper(new Enhanced_DTWI(), test, train);
         dtw.classifyAllInstances();
         //dtw.writeCsvFile("DTWITest" + fold, "DTWI");
-        aveDTWI += dtw.getAccuracy();
+        aveDTWI[0] += dtw.getAccuracy();
+        aveDTWI[1] += dtw.getSportAccuracy();
         return aveDTWI;
     }
-    public static double runEnhancedDTWI(double aveDTWI, Instances test, Instances train, int fold, int warp_Size) throws Exception{
+    public static double [] runEnhancedDTWI(double aveDTWI[], Instances test, Instances train, int fold, int warp_Size) throws Exception{
         ClassifierWrapper dtw = new ClassifierWrapper(new Enhanced_DTWI(warp_Size), test, train);
         dtw.classifyAllInstances();
         //dtw.writeCsvFile("DTWITest" + fold, "DTWI");
-        aveDTWI += dtw.getAccuracy();
+        aveDTWI[0] += dtw.getAccuracy();
+        aveDTWI[1] += dtw.getSportAccuracy();
         return aveDTWI;
     }
     
-    public static double runBasicDTW(double aveBasicDTW, Instances test, Instances train, int fold) throws Exception{
+    public static double [] runBasicDTW(double aveBasicDTW[], Instances test, Instances train, int fold) throws Exception{
         ClassifierWrapper dtw = new ClassifierWrapper(new Basic_DTW(), test, train);
         dtw.classifyAllInstances();
         dtw.writeCsvFile("basicDTWTest" + fold, "BASICDTW");
-        aveBasicDTW += dtw.getAccuracy();
+        aveBasicDTW[0] += dtw.getAccuracy();
+        aveBasicDTW[1] += dtw.getSportAccuracy();
         return aveBasicDTW;
     }
     
-    public static double runEuclideanDistance(double aveEuclid, Instances test, Instances train, int fold) throws Exception{
+    public static double [] runEuclideanDistance(double aveEuclid[], Instances test, Instances train, int fold) throws Exception{
         ClassifierWrapper euclidean = new ClassifierWrapper(new EuclideanDistance(), test, train);
         euclidean.classifyAllInstances();
         euclidean.writeCsvFile("euclideanTest" + fold, "EUCLIDEANDISTANCE");
-        aveEuclid += euclidean.getAccuracy();
+        aveEuclid[0] += euclidean.getAccuracy();
+        aveEuclid[1] += euclidean.getSportAccuracy();
         return aveEuclid;
     }
     
-    public static double runRotationalForest(double aveRotation, Instances test, Instances train, int fold) throws Exception{
+    public static double [] runRotationalForest(double aveRotation[], Instances test, Instances train, int fold) throws Exception{
         ClassifierWrapper rotation = new ClassifierWrapper(new RotationForest(), test, train);
         rotation.classifyAllInstances();
         rotation.writeCsvFile("rotationTest" + fold, "ROTATIONALFOREST");
-        aveRotation += rotation.getAccuracy();
+        aveRotation[0] += rotation.getAccuracy();
+        aveRotation[1] += rotation.getSportAccuracy();
         return aveRotation;
     }
     
-    public static double runRandomForest(double aveRF, Instances test, Instances train, int fold, int numTrees, String testName) throws Exception{
+    public static double [] runRandomForest(double aveRF[], Instances test, Instances train, int fold, int numTrees, String testName) throws Exception{
         weka.classifiers.trees.RandomForest rf = new weka.classifiers.trees.RandomForest();
         rf.setNumTrees(numTrees);
         ClassifierWrapper randomForest = new ClassifierWrapper(rf,test,train);
         randomForest.classifyAllInstances();
         randomForest.writeCsvFile("randomForestTest" + fold, "RANDOMFOREST/" + testName);
-        aveRF += randomForest.getAccuracy();
+        aveRF[0] += randomForest.getAccuracy();
+        aveRF[1] += randomForest.getSportAccuracy();
         return aveRF;
     }
     
