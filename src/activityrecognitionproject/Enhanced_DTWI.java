@@ -38,17 +38,18 @@ public class Enhanced_DTWI extends DTWI {
         noClasses = data.numClasses();
         noAttributes = split.numAttributes();
         noInstances = data.numInstances();
-        trainingData = new double [noInstances][][];
-        for(int i=0;i<noInstances;i++){
-           ins= data.instance(i);
-           split=ins.relationalValue(0);
-           double[][] train = new double[split.numInstances()][];
-            for(int j=0;j<split.numInstances();j++){
-                train[j]=split.instance(j).toDoubleArray();
-            }
-            train = transposeArray(train);
-            trainingData[i]=train;
-        }
+//        trainingData = new double [noInstances][][];
+//        for(int i=0;i<noInstances;i++){
+//           ins= data.instance(i);
+//           split=ins.relationalValue(0);
+//           double[][] train = new double[split.numInstances()][];
+//            for(int j=0;j<split.numInstances();j++){
+//                train[j]=split.instance(j).toDoubleArray();
+//            }
+//            train = transposeArray(train);
+//            trainingData[i]=train;
+//        }
+        trainingData = makeDataMultiVariate(data, noInstances);
         
         setWarpSize();
         

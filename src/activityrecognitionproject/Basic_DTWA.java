@@ -14,7 +14,7 @@ import weka.core.Instances;
  *
  * @author phillipperks
  */
-public class Basic_DTWA implements Classifier {
+public class Basic_DTWA extends Basic_DTW {
 
     
     Classifier DTWA;

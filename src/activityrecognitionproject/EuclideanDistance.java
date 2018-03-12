@@ -31,11 +31,31 @@ public class EuclideanDistance implements Classifier {
         noInstances = data.numInstances();
         trainingData = new double [noInstances][noAttributes];
         for(int i=0; i<noInstances; i++){
+            data.set(0, znorm(data.instance(i)));
             for(int a=0; a<noAttributes; a++){
                 trainingData[i][a] = data.instance(i).value(a);
             }
         }
+    }
+    
+    protected Instance znorm(Instance ts){
+        double sumNum = 0;
+        double sumSqu = 0;
+        double att = noAttributes-1;
+        for (int i = 0; i < att; i++) {
+            sumNum += ts.value(i);
+            sumSqu += Math.pow(ts.value(i), 2);
+        }
         
+        double mean = sumNum / att;
+        double var = (att * sumSqu - sumNum * sumNum) / (att * att);
+        double stdev = Math.sqrt(var);
+       
+        for (int i = 0; i < att; i++) {
+            double z = (ts.value(i)-mean)/stdev;
+            ts.setValue(i, z);
+        }
+       return ts;
     }
     
     protected double euclidean(double a, double b){
@@ -115,5 +135,17 @@ public class EuclideanDistance implements Classifier {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     public static void main(String[] args) throws Exception{
+                Instances all = ClassifierTools.loadData("/Users/phillipperks/Desktop/3rd-Year-Project/ARFF_Files/Cross Validation/Combination/MVMotionUni.arff");
+                    
+                EuclideanDistance ed = new EuclideanDistance();
+                ed.buildClassifier(all);
+                for(int i=0; i<all.instance(0).numAttributes();i++){
+                    System.out.print(all.instance(0).value(i) + "\t\t");
+                }
+                System.out.println("");
+                all.set(0, ed.znorm(all.instance(0)));
+                for(int i=0; i<all.instance(0).numAttributes();i++){
+                    System.out.print(all.instance(0).value(i) + "\t");
+                }
     }
 }

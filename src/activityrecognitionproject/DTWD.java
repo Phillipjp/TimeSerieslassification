@@ -35,10 +35,33 @@ public class DTWD extends Basic_DTW{
             for(int j=0;j<split.numInstances();j++){
                 train[j]=split.instance(j).toDoubleArray();
             }
+            train = transposeArray(train);
             trainingData[i]=train;
         }
     }
 
+    protected double [][] znorm(double [][] ts){
+        for (int i = 0; i < ts.length; i++) {
+            double sumNum = 0;
+            double sumSqu = 0;
+            double att = ts[i].length;
+            for (int j = 0; j < att; j++) {
+                sumNum += ts[i][j];
+                sumSqu += Math.pow(ts[i][j], 2);
+            }
+        
+            double mean = sumNum / att;
+            double var = (att * sumSqu - sumNum * sumNum) / (att * att);
+            double stdev = Math.sqrt(var);
+
+            for (int j = 0; j < att; j++) {
+                double z = (ts[i][j]-mean)/stdev;
+                ts[i][j]=z;
+            }
+        }
+        return ts;
+    }
+    
     protected double distance(double [][] train, double [][] test, double currentMin){
         //initialise a matrix and set all valuse to max to prevent an incorrect 
         //distance being returned and used
@@ -123,6 +146,7 @@ public class DTWD extends Basic_DTW{
         for(int j=0;j<testSplit.numInstances();j++){
             test[j]=testSplit.instance(j).toDoubleArray();
         }
+        test = transposeArray(test);
         double temp = 0;
         //for all training instances find the distance
         for(int i=0; i<trainingInstances.numInstances(); i++){

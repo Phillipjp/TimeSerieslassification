@@ -36,6 +36,8 @@ public class ActivityRecognitionProject {
         double aveRF [] = new double [2];
         double aveEuclid[] = new double [2];
         double aveRotation [] = new double [2];
+        double aveSMO [] = new double [2];
+        double aveANN [] = new double [2];
         double aveBasicDTW [] = new double [2];
         double aveDTWI [] = new double [2];
         double aveDTWD [] = new double [2];
@@ -43,6 +45,7 @@ public class ActivityRecognitionProject {
         double aveKNNDTWI3 [] = new double [2];
         double aveKNNDTWI5 [] = new double [2];
         double aveKNNDTWI7 [] = new double [2];
+        
         
         
         for(int fold=0; fold<totalFolds; fold++){
@@ -62,15 +65,14 @@ public class ActivityRecognitionProject {
 //            aveRotation = runRotationalForest(aveRotation,test, train, fold);
 //            aveRF = runRandomForest(aveRF,test, train, fold, 100, "RANDOMFOREST100");
 //            aveBasicDTW = runBasicDTW(aveBasicDTW,test, train, fold);
-//            aveDTWI = runDTWI(aveDTWI, multiTest, multiTrain, fold);
-//            aveDTWD = runDTWD(aveDTWD, multiTest, multiTrain, fold);
-//            for(int i=1; i<32;i++){
-//                aveEnhancedDTWI[i] = runEnhancedDTWI(aveEnhancedDTWI[i], multiTest, multiTrain, fold, i);
-//            }
+            //aveDTWI = runDTWI(aveDTWI, multiTest, multiTrain, fold);
+  //          aveDTWD = runDTWD(aveDTWD, multiTest, multiTrain, fold);
             //aveEnhancedDTWI = runEnhancedDTWI(aveEnhancedDTWI, multiTest, multiTrain, fold);
-            aveKNNDTWI3 = runKNNDTWI(aveKNNDTWI3, multiTest, multiTrain, fold, 3);
-            aveKNNDTWI5 = runKNNDTWI(aveKNNDTWI5, multiTest, multiTrain, fold, 5);
-            aveKNNDTWI7 = runKNNDTWI(aveKNNDTWI7, multiTest, multiTrain, fold, 7);
+//            aveKNNDTWI3 = runKNNDTWI(aveKNNDTWI3, multiTest, multiTrain, fold, 3);
+//            aveKNNDTWI5 = runKNNDTWI(aveKNNDTWI5, multiTest, multiTrain, fold, 5);
+//            aveKNNDTWI7 = runKNNDTWI(aveKNNDTWI7, multiTest, multiTrain, fold, 7);
+//           aveSMO = runSMO(aveSMO, multiTest, multiTrain, fold);
+            aveANN = runANN(aveANN, test, train, fold);
             
 
             
@@ -89,6 +91,12 @@ public class ActivityRecognitionProject {
         System.out.println("");
         System.out.println("Random Forest Accuracy: " + aveRF[0]/totalFolds);
         System.out.println("Random Forest Sport Accuracy: " + aveRF[1]/totalFolds);
+        System.out.println("");
+        System.out.println("SMO Accuracy: " + aveSMO[0]/totalFolds);
+        System.out.println("SMO Sport Accuracy: " + aveSMO[1]/totalFolds);
+        System.out.println("");
+        System.out.println("ANN Accuracy: " + aveANN[0]/totalFolds);
+        System.out.println("ANN Sport Accuracy: " + aveANN[1]/totalFolds);
         System.out.println("");
         System.out.println("Basic DTW Accuracy: " + aveBasicDTW[0]/totalFolds);
         System.out.println("Basic DTW Sport Accuracy: " + aveBasicDTW[1]/totalFolds);
@@ -198,6 +206,24 @@ public class ActivityRecognitionProject {
         return aveRF;
     }
     
+    public static double [] runSMO(double aveSVM[], Instances test, Instances train, int fold) throws Exception{
+        ClassifierWrapper svm = new ClassifierWrapper(new weka.classifiers.functions.SMO(), test, train);
+        svm.classifyAllInstances();
+        //dtw.writeCsvFile("DTWITest" + fold, "DTWI");
+        aveSVM[0] += svm.getAccuracy();
+        aveSVM[1] += svm.getSportAccuracy();
+        return aveSVM;
+    }
+    
+     public static double [] runANN(double aveANN[], Instances test, Instances train, int fold) throws Exception{
+        ClassifierWrapper ann = new ClassifierWrapper(new weka.classifiers.functions.SMO(), test, train);
+        ann.classifyAllInstances();
+        //dtw.writeCsvFile("DTWITest" + fold, "DTWI");
+        aveANN[0] += ann.getAccuracy();
+        aveANN[1] += ann.getSportAccuracy();
+        return aveANN;
+    }
+     
     public static double runBayes(double aveBayes, Instances test, Instances train, int fold) throws Exception{
         ClassifierWrapper bayes = new ClassifierWrapper(new weka.classifiers.bayes.NaiveBayes(), test, train);
         bayes.classifyAllInstances();
