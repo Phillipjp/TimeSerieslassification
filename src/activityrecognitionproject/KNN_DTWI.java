@@ -138,4 +138,46 @@ public class KNN_DTWI extends Enhanced_DTWI{
         //should never happen
         return -1;
     }
+    
+    @Override
+    public double[] distributionForInstance(Instance instance) throws Exception {
+        double [] prob = new double [trainingInstances.numClasses()];
+        //put the test instance in an array
+        Instances testSplit = instance.relationalValue(0);
+        double[][] test = new double[testSplit.numInstances()][];
+        for(int j=0;j<testSplit.numInstances();j++){
+            test[j]=testSplit.instance(j).toDoubleArray();
+        }
+        //create an array containing the distance and class for each train instance
+        DistanceAndClass [] dc = new DistanceAndClass [noInstances];
+        
+        //transpose array
+       test = transposeArray(test);
+        double distance = 0;
+        //for all training instsnces find the distance
+        for(int i=0; i<trainingInstances.numInstances(); i++){
+            //for each series in the test data get the distance
+            for(int j=0 ;j<trainingData[i].length; j++){
+                distance += distance(trainingData[i][j], test[j]);
+            }
+            
+            dc[i] = new DistanceAndClass(distance, trainingInstances.instance(i).classValue());
+            distance = 0;
+        }
+        
+        //sort dc according to distance
+        dc = sortAscending(dc);
+        
+        //find the number of predictions for each class of the smallest k predictions
+        int [] predictions = new int [trainingInstances.numClasses()];
+        for (int i = 0; i < k; i++) {
+            predictions[(int)dc[i].c] ++;
+        }
+        
+        for (int i = 0; i < k; i++) {
+            prob[i] = predictions[i]/k;
+        }
+        
+        return prob;
+    }
 }

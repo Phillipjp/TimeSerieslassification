@@ -58,7 +58,7 @@ public class ActivityRecognitionProject {
             Instances multiTrain = multiData[0];
             Instances  multiTest = multiData[1];
             
-//            aveEuclid = runEuclideanDistance(aveEuclid,test, train, fold);
+ //          aveEuclid = runEuclideanDistance(aveEuclid,test, train, fold);
 //            aveBayes = runBayes(aveBayes,test, train, fold);
 //            aveKNN = runKNN(aveKNN,test, train, fold, 3 , "KNN3");
 //            aveJ48 = runJ48(aveJ48,test, train, fold);
@@ -67,12 +67,12 @@ public class ActivityRecognitionProject {
 //            aveBasicDTW = runBasicDTW(aveBasicDTW,test, train, fold);
             //aveDTWI = runDTWI(aveDTWI, multiTest, multiTrain, fold);
   //          aveDTWD = runDTWD(aveDTWD, multiTest, multiTrain, fold);
-            //aveEnhancedDTWI = runEnhancedDTWI(aveEnhancedDTWI, multiTest, multiTrain, fold);
+            aveEnhancedDTWI = runEnhancedDTWI(aveEnhancedDTWI, multiTest, multiTrain, fold);
 //            aveKNNDTWI3 = runKNNDTWI(aveKNNDTWI3, multiTest, multiTrain, fold, 3);
 //            aveKNNDTWI5 = runKNNDTWI(aveKNNDTWI5, multiTest, multiTrain, fold, 5);
 //            aveKNNDTWI7 = runKNNDTWI(aveKNNDTWI7, multiTest, multiTrain, fold, 7);
 //           aveSMO = runSMO(aveSMO, multiTest, multiTrain, fold);
-            aveANN = runANN(aveANN, test, train, fold);
+//            aveANN = runANN(aveANN, test, train, fold);
             
 
             
@@ -125,7 +125,7 @@ public class ActivityRecognitionProject {
     }
     public static double [] runKNNDTWI(double aveDTWI[], Instances test, Instances train, int fold, int k) throws Exception{
         ClassifierWrapper dtw = new ClassifierWrapper(new KNN_DTWI(k), test, train);
-        dtw.classifyAllInstances();
+        dtw.confusionMatrix();
         //dtw.writeCsvFile("DTWITest" + fold, "DTWI");
         aveDTWI[0] += dtw.getAccuracy();
         aveDTWI[1] += dtw.getSportAccuracy();
@@ -134,7 +134,7 @@ public class ActivityRecognitionProject {
     
     public static double [] runDTWD(double aveDTWD[], Instances test, Instances train, int fold) throws Exception{
         ClassifierWrapper dtw = new ClassifierWrapper(new DTWD(), test, train);
-        dtw.classifyAllInstances();
+        dtw.confusionMatrix();
         //dtw.writeCsvFile("DTWITest" + fold, "DTWI");
         aveDTWD[0] += dtw.getAccuracy();
         aveDTWD[1] += dtw.getSportAccuracy();
@@ -144,7 +144,7 @@ public class ActivityRecognitionProject {
     
     public static double [] runDTWI(double aveDTWI[], Instances test, Instances train, int fold) throws Exception{
         ClassifierWrapper dtw = new ClassifierWrapper(new DTWI(), test, train);
-        dtw.classifyAllInstances();
+        dtw.confusionMatrix();
         //dtw.writeCsvFile("DTWITest" + fold, "DTWI");
         aveDTWI[0] += dtw.getAccuracy();
         aveDTWI[1] += dtw.getSportAccuracy();
@@ -153,16 +153,16 @@ public class ActivityRecognitionProject {
     
     public static double [] runEnhancedDTWI(double aveDTWI[], Instances test, Instances train, int fold) throws Exception{
         ClassifierWrapper dtw = new ClassifierWrapper(new Enhanced_DTWI(), test, train);
-        dtw.classifyAllInstances();
-        //dtw.writeCsvFile("DTWITest" + fold, "DTWI");
+        dtw.confusionMatrix();
+        dtw.writeCsvFile("EnhancedDTWITest" + fold, "EnhancedDTWI");
         aveDTWI[0] += dtw.getAccuracy();
         aveDTWI[1] += dtw.getSportAccuracy();
         return aveDTWI;
     }
     public static double [] runEnhancedDTWI(double aveDTWI[], Instances test, Instances train, int fold, int warp_Size) throws Exception{
         ClassifierWrapper dtw = new ClassifierWrapper(new Enhanced_DTWI(warp_Size), test, train);
-        dtw.classifyAllInstances();
-        //dtw.writeCsvFile("DTWITest" + fold, "DTWI");
+        dtw.confusionMatrix();
+        dtw.writeCsvFile("DTWITest" + fold, "DTWI");
         aveDTWI[0] += dtw.getAccuracy();
         aveDTWI[1] += dtw.getSportAccuracy();
         return aveDTWI;
@@ -170,7 +170,7 @@ public class ActivityRecognitionProject {
     
     public static double [] runBasicDTW(double aveBasicDTW[], Instances test, Instances train, int fold) throws Exception{
         ClassifierWrapper dtw = new ClassifierWrapper(new Basic_DTW(), test, train);
-        dtw.classifyAllInstances();
+        dtw.confusionMatrix();
         dtw.writeCsvFile("basicDTWTest" + fold, "BASICDTW");
         aveBasicDTW[0] += dtw.getAccuracy();
         aveBasicDTW[1] += dtw.getSportAccuracy();
@@ -179,7 +179,7 @@ public class ActivityRecognitionProject {
     
     public static double [] runEuclideanDistance(double aveEuclid[], Instances test, Instances train, int fold) throws Exception{
         ClassifierWrapper euclidean = new ClassifierWrapper(new EuclideanDistance(), test, train);
-        euclidean.classifyAllInstances();
+        euclidean.confusionMatrix();
         euclidean.writeCsvFile("euclideanTest" + fold, "EUCLIDEANDISTANCE");
         aveEuclid[0] += euclidean.getAccuracy();
         aveEuclid[1] += euclidean.getSportAccuracy();
@@ -188,7 +188,7 @@ public class ActivityRecognitionProject {
     
     public static double [] runRotationalForest(double aveRotation[], Instances test, Instances train, int fold) throws Exception{
         ClassifierWrapper rotation = new ClassifierWrapper(new RotationForest(), test, train);
-        rotation.classifyAllInstances();
+        rotation.confusionMatrix();
         rotation.writeCsvFile("rotationTest" + fold, "ROTATIONALFOREST");
         aveRotation[0] += rotation.getAccuracy();
         aveRotation[1] += rotation.getSportAccuracy();
@@ -199,7 +199,7 @@ public class ActivityRecognitionProject {
         weka.classifiers.trees.RandomForest rf = new weka.classifiers.trees.RandomForest();
         rf.setNumTrees(numTrees);
         ClassifierWrapper randomForest = new ClassifierWrapper(rf,test,train);
-        randomForest.classifyAllInstances();
+        randomForest.confusionMatrix();
         randomForest.writeCsvFile("randomForestTest" + fold, "RANDOMFOREST/" + testName);
         aveRF[0] += randomForest.getAccuracy();
         aveRF[1] += randomForest.getSportAccuracy();
@@ -208,7 +208,7 @@ public class ActivityRecognitionProject {
     
     public static double [] runSMO(double aveSVM[], Instances test, Instances train, int fold) throws Exception{
         ClassifierWrapper svm = new ClassifierWrapper(new weka.classifiers.functions.SMO(), test, train);
-        svm.classifyAllInstances();
+        svm.confusionMatrix();
         //dtw.writeCsvFile("DTWITest" + fold, "DTWI");
         aveSVM[0] += svm.getAccuracy();
         aveSVM[1] += svm.getSportAccuracy();
@@ -217,7 +217,7 @@ public class ActivityRecognitionProject {
     
      public static double [] runANN(double aveANN[], Instances test, Instances train, int fold) throws Exception{
         ClassifierWrapper ann = new ClassifierWrapper(new weka.classifiers.functions.SMO(), test, train);
-        ann.classifyAllInstances();
+        ann.confusionMatrix();
         //dtw.writeCsvFile("DTWITest" + fold, "DTWI");
         aveANN[0] += ann.getAccuracy();
         aveANN[1] += ann.getSportAccuracy();
@@ -226,7 +226,7 @@ public class ActivityRecognitionProject {
      
     public static double runBayes(double aveBayes, Instances test, Instances train, int fold) throws Exception{
         ClassifierWrapper bayes = new ClassifierWrapper(new weka.classifiers.bayes.NaiveBayes(), test, train);
-        bayes.classifyAllInstances();
+        bayes.confusionMatrix();
         bayes.writeCsvFile("bayesTest" + fold, "BAYES");
         aveBayes += bayes.getAccuracy();
         return aveBayes;
@@ -234,7 +234,7 @@ public class ActivityRecognitionProject {
     
     public static double runKNN(double aveKNN, Instances test, Instances train, int fold, int k, String testName) throws Exception{
         ClassifierWrapper knn = new ClassifierWrapper(new weka.classifiers.lazy.IBk(k),test,train);
-        knn.classifyAllInstances();
+        knn.confusionMatrix();
         knn.writeCsvFile("knnTest" + fold, "KNN/" + testName);
         aveKNN += knn.getAccuracy();
         return aveKNN;
@@ -242,7 +242,7 @@ public class ActivityRecognitionProject {
     
     public static double runJ48(double aveJ48, Instances test, Instances train, int fold) throws Exception{
         ClassifierWrapper J48 = new ClassifierWrapper(new weka.classifiers.trees.J48(),test,train);
-        J48.classifyAllInstances();
+        J48.confusionMatrix();
         J48.writeCsvFile("J48Test" + fold, "J48");
         aveJ48 += J48.getAccuracy();
         return aveJ48;

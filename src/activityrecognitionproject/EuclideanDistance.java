@@ -86,47 +86,9 @@ public class EuclideanDistance implements Classifier {
 
     @Override
     public double[] distributionForInstance(Instance instance) throws Exception {
-        double prob [] = new double [noClasses];
-        
-        //Array that holds the number of times each class occurs
-        int[] count = new int [noClasses];
-        //Matrix that holds the mean value for each attribute for each class
-        double [][] means = new double[noClasses][noAttributes];
-        int classValue;
-        //Calculate the means
-        for(Instance i : trainingInstances){
-            classValue = (int)i.classValue();
-            count[classValue] ++;
-            for(int j=0; j<noAttributes-1; j++){
-                means[classValue][j] += i.value(j);
-            }
-        }
-        for(int j=0; j<noClasses; j++){
-            for(int k=0; k<noAttributes-1; k++){
-                means[j][k]= means[j][k]/count[j];
-            }
-        }
-        //Matrix that holds the standard deviation for each attribute for each class
-        double [][] stdev = new double [noClasses][noAttributes];
-        //calvulate standard deviations
-        for(Instance i: trainingInstances){
-            classValue = (int)i.classValue();
-            for(int j=0; j<noAttributes-1; j++){
-                stdev[classValue][j] += Math.pow(i.value(j)-means[classValue][j],2);
-            }
-        }
-        for(int j=0; j<noClasses; j++){
-            for(int k=0; k<noAttributes-1; k++){
-                stdev[j][k]= Math.sqrt(stdev[j][k]);
-            }
-        }
-        
-        for(int i=0; i<noClasses; i++){
-            prob[i]=1;
-            for(int j=0; j<noAttributes-1; j++){
-               prob[i]*=NormalDistribution.probability(instance.value(j), means[i][j],stdev[i][j]);
-            }
-        }
+        double [] prob = new double [trainingInstances.numClasses()];
+        double result = classifyInstance(instance);
+        prob[(int)result] = 1;
         return prob;
     }
 

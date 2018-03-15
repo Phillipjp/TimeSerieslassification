@@ -28,6 +28,8 @@ public class ClassifierWrapper <C extends weka.classifiers.Classifier> {
     private double sportAccuracy;
     private Instances test;
     private Instances train;
+    private double [][] matrix;
+    private double balancedAccuracy;
     
     public ClassifierWrapper(C classifier, Instances test, Instances train ) throws Exception{
         this.classifier = classifier;
@@ -37,8 +39,10 @@ public class ClassifierWrapper <C extends weka.classifiers.Classifier> {
         this.test = test;
         
         this.classifier.buildClassifier(this.train);
+        matrix = new double[train.numClasses()][train.numClasses()];
         for(Instance i: test){
             double result = this.classifier.classifyInstance(i);
+            matrix[(int)result][(int)i.classValue()] += 1;
             if(result == i.value(this.test.numAttributes()-1)){
                 this.correct++;
             }
@@ -51,8 +55,23 @@ public class ClassifierWrapper <C extends weka.classifiers.Classifier> {
             }
             
         }
+        
+        
         this.accuracy = (double)this.correct/test.numInstances();
         this.sportAccuracy = (double)this.correctSport/test.numInstances();
+        balancedAccuracy = 0;
+        for (int i = 0; i < train.numClasses(); i++) {
+               double trp = 0;
+               double total = 0;
+               for (int j = 0; j < train.numClasses(); j++) {
+                if(i == j){
+                   trp = matrix[j][i];
+                }
+                total += matrix[j][i];
+            }
+            balancedAccuracy += trp/total;
+        }
+        balancedAccuracy /= train.numClasses();
         
         
     }
@@ -87,6 +106,11 @@ public class ClassifierWrapper <C extends weka.classifiers.Classifier> {
         return sportAccuracy;
     }
     
+    //returns accuracy of classifier
+    public double getBalancedAccuracy(){
+        return balancedAccuracy;
+    }
+    
     //returns number of times the correct sport was classified
     public double getCorrectSport(){
         return correctSport;
@@ -98,7 +122,7 @@ public class ClassifierWrapper <C extends weka.classifiers.Classifier> {
     }
     
     //classifies all instances and prints the accuracy as well as a confusion matrix
-    public void classifyAllInstances(){
+    public void confusionMatrix(){
         StringBuilder str = new StringBuilder();
         for(int i=0; i<50; i++){
             str.append("=");
@@ -107,21 +131,18 @@ public class ClassifierWrapper <C extends weka.classifiers.Classifier> {
         str.append("\n\n").append("Class Name: ");
         str.append(classifier.getClass().getName()).append("\n");
         
-        str.append("Accuracy: ").append((double)correct/test.numInstances()*100);
+        str.append("Accuracy: ").append(accuracy*100);
+        str.append("% \n");
+        str.append("Sport Accuracy: ").append(sportAccuracy*100);
+        str.append("% \n");
+        str.append("Balanced Accuracy: ").append(balancedAccuracy*100);
         str.append("% \n\n");
         
-        int classes = test.numClasses();
-        int[][] matrix = new int [classes][classes];
-        for(Instance i: test){
-            try {
-                matrix[(int)classifier.classifyInstance(i)][(int)i.classValue()] += 1;
-            } catch (Exception ex) {
-                Logger.getLogger(ClassifierWrapper.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        
         
         str.append("\t");
         
+        int classes = test.numClasses();
         for(int i=0; i< classes; i++){
             str.append((double)i).append("\t");
         }
@@ -183,7 +204,9 @@ public class ClassifierWrapper <C extends weka.classifiers.Classifier> {
                 fileWriter.append(NEW_LINE_SEPARATOR);
                 fileWriter.append("BuildTime," + duration + COMMA_DELIMITER + classifier.getClass());
                 fileWriter.append(NEW_LINE_SEPARATOR);
-                fileWriter.append(Double.toString((double)correct/test.numInstances()));
+                fileWriter.append(Double.toString(accuracy)).append(COMMA_DELIMITER);
+                fileWriter.append(Double.toString(sportAccuracy)).append(COMMA_DELIMITER);
+                fileWriter.append(Double.toString(balancedAccuracy)).append(COMMA_DELIMITER);
                 fileWriter.append(NEW_LINE_SEPARATOR);
                 fileWriter.append(results);
                 
