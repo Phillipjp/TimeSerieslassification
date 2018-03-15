@@ -174,10 +174,9 @@ public class KNN_DTWI extends Enhanced_DTWI{
             predictions[(int)dc[i].c] ++;
         }
         
-        for (int i = 0; i < k; i++) {
-            prob[i] = predictions[i]/k;
+        for (int i = 0; i < prob.length; i++) {
+            prob[i] = (double)predictions[i]/k;
         }
-        
         return prob;
     }
 }
