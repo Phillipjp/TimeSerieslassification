@@ -12,7 +12,7 @@ public class UnivariateConverter {
      * @throws java.io.UnsupportedEncodingException
      */
     public static void main(String[] args) throws IOException {
-        convert("/Users/phillipperks/Desktop/3rd Year Project/ARFF_Files/Cross Validation/Jack/MVMotion.arff", "MVMotionUni");
+        convert("/Users/phillipperks/Desktop/3rd-Year-Project/ARFF_Files/Cross Validation/simonBadminton.arff", "simonBadmintonUni");
     }
         
     public static void convert(String dataLocation, String newName) throws IOException{
@@ -20,7 +20,7 @@ public class UnivariateConverter {
         File inputFile = new File(dataLocation);
         FileReader reader = new FileReader(inputFile);
         BufferedReader br = new BufferedReader(reader); 
-        PrintWriter writer = new PrintWriter("/Users/phillipperks/Desktop/3rd Year Project/ARFF_Files/Cross Validation/Jack/" + newName + ".arff","UTF-8");
+        PrintWriter writer = new PrintWriter("/Users/phillipperks/Desktop/3rd-Year-Project/ARFF_Files/Cross Validation/" + newName + ".arff","UTF-8");
 
         writer.write("@relation MVMotion \n");
 

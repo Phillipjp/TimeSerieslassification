@@ -77,8 +77,8 @@ public class MultivariateConverter {
     
     public static void main(String[] args) throws IOException {
         
-        Instances data = loadData("/Users/phillipperks/Desktop/3rd-Year-Project/ARFF_Files/Cross Validation/Combination/MVMotionUni.arff");
-        convert("/Users/phillipperks/Desktop/3rd-Year-Project/ARFF_Files/Cross Validation/Combination/MVMotionMulti.arff", data);
+        Instances data = loadData("/Users/phillipperks/Desktop/3rd-Year-Project/ARFF_Files/Cross Validation/simonBadmintonUni.arff");
+        convert("/Users/phillipperks/Desktop/3rd-Year-Project/ARFF_Files/Cross Validation/simonBadmintonMulti.arff", data);
         
     }
     

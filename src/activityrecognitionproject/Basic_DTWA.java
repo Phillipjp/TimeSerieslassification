@@ -106,6 +106,11 @@ public class Basic_DTWA extends Basic_DTW {
     public double classifyInstance(Instance instance) throws Exception {
         return DTWA.classifyInstance(instance);
     }
+    
+    @Override
+    public double[] distributionForInstance(Instance instance) throws Exception {
+        return DTWA.distributionForInstance(instance);
+    }
 
     @Override
     public Capabilities getCapabilities() {
