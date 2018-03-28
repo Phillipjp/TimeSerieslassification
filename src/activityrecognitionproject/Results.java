@@ -108,14 +108,14 @@ public class Results {
         return balancedAccuracy;
     }
     
-    public static void writeTable( String [][] dataPaths) {
+    public static void writeTable( String [][] dataPaths, String fileName) {
         
         FileWriter fileWriter = null;
         final String NEW_LINE_SEPARATOR = "\n";
         final String COMMA_DELIMITER = ",";
         StringBuilder results = new StringBuilder();
         try {
-                fileWriter = new FileWriter("/Users/phillipperks/Desktop/3rd-Year-Project/results/table.csv");
+                fileWriter = new FileWriter("\\\\ueahome4\\stusci3\\xju14zpu\\data\\Documents\\Project\\Quick\\FinalResults\\Tables\\" + fileName + ".csv");
                 for (int i = 0; i < dataPaths.length; i++) {
                 
                     double accuracy = accuracy(dataPaths[i][1],30);
