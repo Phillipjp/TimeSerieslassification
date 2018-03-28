@@ -24,6 +24,26 @@ public class Basic_DTW extends EuclideanDistance{
         return min[0];
     }
     
+    protected Instance znorm(Instance ts){
+        double sumNum = 0;
+        double sumSqu = 0;
+        double att = noAttributes-1;
+        for (int i = 0; i < att; i++) {
+            sumNum += ts.value(i);
+            sumSqu += Math.pow(ts.value(i), 2);
+        }
+        
+        double mean = sumNum / att;
+        double var = (att * sumSqu - sumNum * sumNum) / (att * att);
+        double stdev = Math.sqrt(var);
+       
+        for (int i = 0; i < att; i++) {
+            double z = (ts.value(i)-mean)/stdev;
+            ts.setValue(i, z);
+        }
+       return ts;
+    }
+    
     protected double distance(Instance train, Instance test, Double currentMin){
         //initialise a matrix and set all valuse to max to prevent an incorrect 
         //distance being returned and used

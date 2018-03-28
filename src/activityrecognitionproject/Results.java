@@ -52,6 +52,7 @@ public class Results {
                     throw new Exception();
                 }
             }
+            
         }
         NLL /= folds;
         return NLL;
@@ -108,14 +109,14 @@ public class Results {
         return balancedAccuracy;
     }
     
-    public static void writeTable( String [][] dataPaths) {
+    public static void writeTable( String [][] dataPaths, String fileName) {
         
         FileWriter fileWriter = null;
         final String NEW_LINE_SEPARATOR = "\n";
         final String COMMA_DELIMITER = ",";
         StringBuilder results = new StringBuilder();
         try {
-                fileWriter = new FileWriter("/Users/phillipperks/Desktop/3rd-Year-Project/results/table.csv");
+                fileWriter = new FileWriter("/Users/phillipperks/Desktop/3rd-Year-Project/results/Tables/" +fileName+ ".csv");
                 for (int i = 0; i < dataPaths.length; i++) {
                 
                     double accuracy = accuracy(dataPaths[i][1],30);
@@ -127,23 +128,6 @@ public class Results {
                     results.append(COMMA_DELIMITER).append(balancedAccuracy);
                     results.append(NEW_LINE_SEPARATOR);
                 }
-//                double accuracy = accuracy("/Users/phillipperks/Desktop/3rd-Year-Project/results/EnhancedDTWI/EnhancedDTWITest",30);
-//                double sportAccuracy = sportAccuracy("/Users/phillipperks/Desktop/3rd-Year-Project/results/EnhancedDTWI/EnhancedDTWITest",30);
-//                double balancedAccuracy = balancedAccuracy("/Users/phillipperks/Desktop/3rd-Year-Project/results/EnhancedDTWI/EnhancedDTWITest",30);
-//                
-//                results.append("EnhancedDTWI").append(COMMA_DELIMITER).append(accuracy);
-//                results.append(COMMA_DELIMITER).append(sportAccuracy);
-//                results.append(COMMA_DELIMITER).append(balancedAccuracy);
-//                results.append(NEW_LINE_SEPARATOR);
-//                
-//                accuracy = accuracy("/Users/phillipperks/Desktop/3rd-Year-Project/results/DTWI/DTWITest",30);
-//                sportAccuracy = sportAccuracy("/Users/phillipperks/Desktop/3rd-Year-Project/results/DTWI/DTWITest",30);
-//                balancedAccuracy = balancedAccuracy("/Users/phillipperks/Desktop/3rd-Year-Project/results/DTWI/DTWITest",30);
-//                
-//                results.append("DTWI").append(COMMA_DELIMITER).append(accuracy);
-//                results.append(COMMA_DELIMITER).append(sportAccuracy);
-//                results.append(COMMA_DELIMITER).append(balancedAccuracy);
-//                results.append(NEW_LINE_SEPARATOR);
                 
                 fileWriter.append(results);
                 
@@ -153,6 +137,39 @@ public class Results {
 
 
 
+                System.out.println("rotation file was created successfully !!!");
+
+        } catch (Exception e) {
+                System.out.println("Error in CsvFileWriter !!!");
+                e.printStackTrace();
+        } finally {
+
+                try {
+                        fileWriter.flush();
+                        fileWriter.close();
+                } catch (IOException e) {
+                        System.out.println("Error while flushing/closing fileWriter !!!");
+                        e.printStackTrace();
+                }
+
+        }
+    }
+    
+    public static void writeNLLTable( String [][] dataPaths, String fileName) {
+        
+        FileWriter fileWriter = null;
+        final String NEW_LINE_SEPARATOR = "\n";
+        final String COMMA_DELIMITER = ",";
+        StringBuilder results = new StringBuilder();
+        try {
+                fileWriter = new FileWriter("/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/Tables/" +fileName+ ".csv");
+                for (int i = 0; i < dataPaths.length; i++) {
+                
+                    double NLL = NLL(dataPaths[i][1],30);
+                    results.append(dataPaths[i][0]).append(COMMA_DELIMITER).append(NLL);
+                    results.append(NEW_LINE_SEPARATOR);
+                }
+                fileWriter.append(results);
                 System.out.println("CSV file was created successfully !!!");
 
         } catch (Exception e) {

@@ -69,7 +69,7 @@ public class Basic_DTWA extends Basic_DTW {
         Classifier DTWD = new DTWD();
         Classifier DTWI = new DTWI();
         for(int i=0; i<data.numInstances(); i++){
-            Instances cvData = data;
+            Instances cvData = new Instances (data);
             cvData.delete(i);
             DTWD.buildClassifier(cvData);
             DTWI.buildClassifier(cvData);

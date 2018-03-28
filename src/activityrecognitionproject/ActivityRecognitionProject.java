@@ -30,6 +30,18 @@ public class ActivityRecognitionProject {
         Instances multiVariate = ClassifierTools.loadData(path);
         int totalFolds = 30;
         
+//        int classes []  = new int [4];
+//        int count = 0;
+//        for(Instance i: all){
+//            count++;
+//            classes[(int)i.classValue()]++;
+//        }
+//        System.out.println("Count:\t" + count);
+//        System.out.println("Smash:\t" + classes[0]);
+//        System.out.println("Clear:\t" + classes[1]);
+//        System.out.println("Forehand:\t" + classes[2]);
+//        System.out.println("Backhand:\t" + classes[3]);
+        
         double aveBayes = 0;
         double aveKNN =  0;
         double aveJ48 = 0;
@@ -92,6 +104,7 @@ public class ActivityRecognitionProject {
         double aveDTWI [] = new double [2];
         double aveDTWD [] = new double [2];
         double aveDTWA [] = new double [2];
+        double aveEnhancedDTWA [] = new double [3];
         double aveEnhancedDTWI [] = new double [2];
         
         
@@ -120,23 +133,65 @@ public class ActivityRecognitionProject {
         double aveKNNDTWI47 [] = new double [2];
         double aveKNNDTWI49 [] = new double [2];
         
-        String [][] dataPaths = new String [6][2];
-        dataPaths [0][0] = "EnhancedDTWI";
-        dataPaths[0][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/results/EnhancedDTWI/EnhancedDTWITest";
-        dataPaths [1][0] = "DTWA";
-        dataPaths[1][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/results/DTWA/DTWATest";
-        dataPaths [2][0] = "DTWD";
-        dataPaths[2][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/results/DTWD/DTWDTest";
-        dataPaths [3][0] = "DTWI";
-        dataPaths[3][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/results/DTWI/DTWITest";
-        dataPaths [4][0] = "Rotation Forest";
-        dataPaths[4][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/results/ROTATIONALFOREST/rotationTest";
-        dataPaths [5][0] = "Random Forest";
-        dataPaths[5][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/results/RANDOMFOREST/randomForestTest";
-        
-      Results.writeTable(dataPaths);
-        
+        String [][] dataPaths = new String [11][2];
+//        dataPaths [0][0] = "Basic DTW";
+//        dataPaths[0][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/BASICDTW/basicDTWTest";
+//        dataPaths [1][0] = "DTWA";
+//        dataPaths[1][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/DTWA/DTWATest";
+//        dataPaths [2][0] = "DTWD";
+//        dataPaths[2][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/DTWD/DTWDTest";
+//        dataPaths [3][0] = "DTWI";
+//        dataPaths[3][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/DTWI/DTWITest";
+//        dataPaths [4][0] = "Enhanced DTWI";
+//        dataPaths[4][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/EnhancedDTWI/EnhancedDTWITest";
+//        dataPaths [5][0] = "Random Forest";
+//        dataPaths[5][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/RANDOMFOREST/randomForestTest";
+
+//        dataPaths [0][0] = "Bayes";
+//        dataPaths[0][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/ROTATIONFOREST/bayesTest";
+//        dataPaths [1][0] = "Euclidean";
+//        dataPaths[1][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/EUCLIDEANDISTANCE/euclideanTest";
+//        dataPaths [2][0] = "KNN";
+//        dataPaths[2][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/KNN/knnTest";
+//        dataPaths [3][0] = "DTWI";
+//        dataPaths[3][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/J48/J48Test";
+//        dataPaths [4][0] = "Random Forest";
+//        dataPaths[4][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/RANDOMFOREST/randomForestTest";
+//        dataPaths [5][0] = "Rotation Forest";
+//        dataPaths[5][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/ROTATIONFOREST/rotationTest";
+//        dataPaths [6][0] = "SVM";
+//        dataPaths[6][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/SVM/SVMTest";
+//        dataPaths [7][0] = "ANN";
+//        dataPaths[7][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/ANN/ANNTest";
+
+        dataPaths [0][0] = "10";
+        dataPaths[0][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/ROTATIONFOREST10/rotationTest";
+        dataPaths [1][0] = "50";
+        dataPaths[1][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/ROTATIONFOREST50/rotationTest";
+        dataPaths [2][0] = "100";
+        dataPaths[2][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/ROTATIONFOREST100/rotationTest";
+        dataPaths [3][0] = "150";
+        dataPaths[3][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/ROTATIONFOREST150/rotationTest";
+        dataPaths [4][0] = "200";
+        dataPaths[4][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/ROTATIONFOREST200/rotationTest";
+        dataPaths [5][0] = "250";
+        dataPaths[5][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/ROTATIONFOREST250/rotationTest";
+        dataPaths [6][0] = "300";
+        dataPaths[6][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/ROTATIONFOREST300/rotationTest";
+        dataPaths [7][0] = "350";
+        dataPaths[7][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/ROTATIONFOREST350/rotationTest";
+        dataPaths [8][0] = "400";
+        dataPaths[8][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/ROTATIONFOREST400/rotationTest";
+        dataPaths [9][0] = "450";
+        dataPaths[9][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/ROTATIONFOREST450/rotationTest";
+        dataPaths [10][0] = "500";
+        dataPaths[10][1] = "/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/ROTATIONFOREST500/rotationTest";
+
+//        Results.writeTable(dataPaths, "Rotation-Forest");
+//        Results.writeNLLTable(dataPaths, "Further Experiments NLL");
+        //System.out.println("NLL\t" + Results.NLL("/Users/phillipperks/Desktop/3rd-Year-Project/FinalResults/EnhancedDTWI/EnhancedDTWITest", 30));
         for(int fold=0; fold<totalFolds; fold++){
+            System.out.println("fold:\t" + fold);
             Instances[] data = InstanceTools.resampleInstances(all, fold, .5);
 
             Instances train = data[0];
@@ -152,8 +207,8 @@ public class ActivityRecognitionProject {
 //            aveBayes = runBayes(aveBayes,test, train, fold);
 //            aveKNN = runKNN(aveKNN,test, train, fold, 3);
 //            aveJ48 = runJ48(aveJ48,test, train, fold);
-            //aveRF = runRandomForest(aveRF,test, train, fold);
-            //aveRotation = runRotationForest(aveRotation,test, train, fold);
+//            aveRF = runRandomForest(aveRF,test, train, fold);
+//            aveRotation = runRotationForest(aveRotation,test, train, fold);
 //            aveSMO = runSMO(aveSMO, multiTest, multiTrain, fold);
 //            aveANN = runANN(aveANN, test, train, fold);
 
@@ -213,6 +268,7 @@ public class ActivityRecognitionProject {
 //            aveDTWI = runDTWI(aveDTWI, multiTest, multiTrain, fold);
 //            aveDTWD = runDTWD(aveDTWD, multiTest, multiTrain, fold);
 //            aveDTWA = runDTWA(aveDTWA, multiTest, multiTrain, fold);
+            aveEnhancedDTWA = runEnhancedDTWA(aveEnhancedDTWA, multiTest, multiTrain, fold);
 //            aveEnhancedDTWI = runEnhancedDTWI(aveEnhancedDTWI, multiTest, multiTrain, fold);
 
 
@@ -255,12 +311,12 @@ public class ActivityRecognitionProject {
 //        System.out.println("Average KNN: " + aveKNN/totalFolds);
 //        System.out.println("Average J48: " + aveJ48/totalFolds);
 //        System.out.println("");
-        System.out.println("Rotational Forest Accuracy: " + aveRotation[0]/totalFolds);
-        System.out.println("Rotational Forest Sport Accuracy: " + aveRotation[1]/totalFolds);
-        System.out.println("");
-        System.out.println("Random Forest Accuracy: " + aveRF[0]/totalFolds);
-        System.out.println("Random Forest Sport Accuracy: " + aveRF[1]/totalFolds);
-        System.out.println("");
+//        System.out.println("Rotational Forest Accuracy: " + aveRotation[0]/totalFolds);
+//        System.out.println("Rotational Forest Sport Accuracy: " + aveRotation[1]/totalFolds);
+//        System.out.println("");
+//        System.out.println("Random Forest Accuracy: " + aveRF[0]/totalFolds);
+//        System.out.println("Random Forest Sport Accuracy: " + aveRF[1]/totalFolds);
+//        System.out.println("");
 //        System.out.println("SMO Accuracy: " + aveSMO[0]/totalFolds);
 //        System.out.println("SMO Sport Accuracy: " + aveSMO[1]/totalFolds);
 //        System.out.println("");
@@ -339,21 +395,25 @@ public class ActivityRecognitionProject {
 //        System.out.println("Rotational Forest 500 Accuracy: " + aveRotation500[0]/totalFolds);
 //        System.out.println("Rotational Forest 500 Sport Accuracy: " + aveRotation500[1]/totalFolds);System.out.println("");
 //        
-        System.out.println("Basic DTW Accuracy: " + aveBasicDTW[0]/totalFolds);
-        System.out.println("Basic DTW Sport Accuracy: " + aveBasicDTW[1]/totalFolds);
-        System.out.println("");
-        System.out.println("DTWD Accuracy: " + aveDTWD[0]/totalFolds);
-        System.out.println("DTWD Sport Accuracy: " + aveDTWD[1]/totalFolds);
-        System.out.println("");
-        System.out.println("DTWI Accuracy: " + aveDTWI[0]/totalFolds);
-        System.out.println("DTWI Sport Accuracy: " + aveDTWI[1]/totalFolds);
-        System.out.println("");
+//        System.out.println("Basic DTW Accuracy: " + aveBasicDTW[0]/totalFolds);
+//        System.out.println("Basic DTW Sport Accuracy: " + aveBasicDTW[1]/totalFolds);
+//        System.out.println("");
+//        System.out.println("DTWD Accuracy: " + aveDTWD[0]/totalFolds);
+//        System.out.println("DTWD Sport Accuracy: " + aveDTWD[1]/totalFolds);
+//        System.out.println("");
+//        System.out.println("DTWI Accuracy: " + aveDTWI[0]/totalFolds);
+//        System.out.println("DTWI Sport Accuracy: " + aveDTWI[1]/totalFolds);
+//        System.out.println("");
         System.out.println("DTWA Accuracy: " + aveDTWA[0]/totalFolds);
         System.out.println("DTWA Sport Accuracy: " + aveDTWA[1]/totalFolds);
-        System.out.println("");
-        System.out.println("Enhanced DTWI Accuracy: " + aveEnhancedDTWI[0]/totalFolds);
-        System.out.println("Enhanced DTWI Sport Accuracy: " + aveEnhancedDTWI[1]/totalFolds);
-        System.out.println("");
+            System.out.println("");
+        System.out.println("Enhanced DTWA Accuracy: " + aveEnhancedDTWA[0]/totalFolds);
+        System.out.println("Enhanced DTWA Sport Accuracy: " + aveEnhancedDTWA[1]/totalFolds);
+        System.out.println("Enhanced DTWA Balanced Accuracy: " + aveEnhancedDTWA[2]/totalFolds);
+//        System.out.println("");
+//        System.out.println("Enhanced DTWI Accuracy: " + aveEnhancedDTWI[0]/totalFolds);
+//        System.out.println("Enhanced DTWI Sport Accuracy: " + aveEnhancedDTWI[1]/totalFolds);
+//        System.out.println("");
 //        
 //        System.out.println("KNN_DTWI 3 Accuracy: " + aveKNNDTWI3[0]/totalFolds);
 //        System.out.println("KNN_DTWI 3 Sport Accuracy: " + aveKNNDTWI3[1]/totalFolds);
@@ -432,7 +492,7 @@ public class ActivityRecognitionProject {
     public static double [] runKNNDTWI(double aveDTWI[], Instances test, Instances train, int fold, int k) throws Exception{
         ClassifierWrapper dtw = new ClassifierWrapper(new KNN_DTWI(k), test, train);
         dtw.confusionMatrix();
-        dtw.writeCsvFile("KNN"+ k + "DTWITest" + fold, "KNN" + k + "DTWI");
+        dtw.writeCsvFile("KNNDTWITest" + fold, "KNNDTWI" + k);
         aveDTWI[0] += dtw.getAccuracy();
         aveDTWI[1] += dtw.getSportAccuracy();
         return aveDTWI;
@@ -454,6 +514,16 @@ public class ActivityRecognitionProject {
         aveDTWI[0] += dtw.getAccuracy();
         aveDTWI[1] += dtw.getSportAccuracy();
         return aveDTWI;
+    }
+    
+    public static double [] runEnhancedDTWA(double aveDTWA[], Instances test, Instances train, int fold) throws Exception{
+        ClassifierWrapper dtw = new ClassifierWrapper(new DTWA(), test, train);
+        dtw.confusionMatrix();
+        //dtw.writeCsvFile("DTWATest" + fold, "EnhancedDTWA");
+        aveDTWA[0] += dtw.getAccuracy();
+        aveDTWA[1] += dtw.getSportAccuracy();
+        aveDTWA[2] += dtw.getBalancedAccuracy();
+        return aveDTWA;
     }
     
     public static double [] runDTWA(double aveDTWA[], Instances test, Instances train, int fold) throws Exception{
@@ -552,7 +622,7 @@ public class ActivityRecognitionProject {
     }
     
      public static double [] runANN(double aveANN[], Instances test, Instances train, int fold) throws Exception{
-        ClassifierWrapper ann = new ClassifierWrapper(new weka.classifiers.functions.SMO(), test, train);
+        ClassifierWrapper ann = new ClassifierWrapper(new weka.classifiers.functions.MultilayerPerceptron(), test, train);
         ann.confusionMatrix();
         ann.writeCsvFile("ANNTest" + fold, "ANN");
         aveANN[0] += ann.getAccuracy();

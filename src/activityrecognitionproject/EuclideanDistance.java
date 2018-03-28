@@ -31,7 +31,7 @@ public class EuclideanDistance implements Classifier {
         noInstances = data.numInstances();
         trainingData = new double [noInstances][noAttributes];
         for(int i=0; i<noInstances; i++){
-            data.set(0, znorm(data.instance(i)));
+            data.set(i, znorm(data.instance(i)));
             for(int a=0; a<noAttributes; a++){
                 trainingData[i][a] = data.instance(i).value(a);
             }
@@ -66,12 +66,13 @@ public class EuclideanDistance implements Classifier {
     public double classifyInstance(Instance instance) throws Exception {
         //calculate all euclidean distances between the test intance and all
         //trainign instances
+        instance =znorm(instance);
         double distance = 0;
         double currentSmallest = Double.MAX_VALUE;
         double predictedClass = -1;
         for(int i=0; i<noInstances; i++){
             for(int a=0; a<noAttributes-1; a++){
-                distance += euclidean(trainingData[i][a],instance.value(a));
+                distance += euclidean(trainingInstances.get(i).value(a),instance.value(a));
             }
             if(distance<currentSmallest){
                 currentSmallest = distance;

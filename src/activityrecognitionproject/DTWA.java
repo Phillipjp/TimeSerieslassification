@@ -20,21 +20,64 @@ public class DTWA extends Basic_DTW {
 
     
     Classifier DTWA;
+    double [][][] trainingData;
     
     @Override
     public void buildClassifier(Instances data) throws Exception {
-        setClassifier(data);
-        DTWA.buildClassifier(data);
+        trainingInstances = data;
+        noClasses = data.numClasses();
+        noAttributes = data.numAttributes();
+        noInstances = data.numInstances();
+        trainingData = makeDataMultiVariate(data, noInstances);
     }
 
-    private void setClassifier(Instances data) throws Exception{
+    protected double [][][] makeDataMultiVariate(Instances data, int length){
+         double [][][] multiVariateData = new double [length][][];
+         Instance ins;
+         Instances split;
+         for(int i=0;i<length;i++){
+           ins= data.instance(i);
+           split=ins.relationalValue(0);
+           double[][] singleInstance = new double[split.numInstances()][];
+            for(int j=0;j<split.numInstances();j++){
+                singleInstance[j]=split.instance(j).toDoubleArray();
+            }
+            singleInstance = transposeArray(singleInstance);
+            multiVariateData[i]=znorm(singleInstance);
+        }
+        
+         return multiVariateData;
+    }
+    
+    protected double [][] znorm(double [][] ts){
+        for (int i = 0; i < ts.length; i++) {
+            double sumNum = 0;
+            double sumSqu = 0;
+            double att = ts[i].length;
+            for (int j = 0; j < att; j++) {
+                sumNum += ts[i][j];
+                sumSqu += Math.pow(ts[i][j], 2);
+            }
+        
+            double mean = sumNum / att;
+            double var = (att * sumSqu - sumNum * sumNum) / (att * att);
+            double stdev = Math.sqrt(var);
+
+            for (int j = 0; j < att; j++) {
+                double z = (ts[i][j]-mean)/stdev;
+                ts[i][j]=z;
+            }
+        }
+        return ts;
+    }
+    private void setClassifier(Instances data, Instance test) throws Exception{
         //find out how to actually calculate minD and minI
-        double minD = nearestNeigboughDistanceD(data, 0);
-        double minI = nearestNeigboughDistanceD(data, 0);
+        double minD = nearestNeigboughDistanceD(data, test);
+        double minI = nearestNeigboughDistanceI(data, test);
         double S = minD/minI;
         
-        double threshold = learnThreshold(data);
-        
+        double threshold = 0.7125;
+        //System.out.println("S:\t" + S);
         if(S>threshold)
             this.DTWA = new DTWI();
         else
@@ -42,8 +85,8 @@ public class DTWA extends Basic_DTW {
         
     }
     
-    private double learnThreshold(Instances data) throws Exception{
-        ArrayList<Double> [] S_Success = findScores(data);
+    private double learnThreshold(Instances data, Instance test) throws Exception{
+        ArrayList<Double> [] S_Success = findScores(data, test);
         ArrayList<Double> S_iSuccess =  S_Success[0];
         ArrayList<Double> S_dSuccess =  S_Success[1];
         double threshold = 0;
@@ -66,7 +109,7 @@ public class DTWA extends Basic_DTW {
         
     }
     
-    private ArrayList [] findScores(Instances data) throws Exception{
+    private ArrayList [] findScores(Instances data, Instance test) throws Exception{
         ArrayList<Double> S_iSuccess = new ArrayList<>();
         ArrayList<Double> S_dSuccess = new ArrayList<>();
         Classifier DTWD = new DTWD();
@@ -79,8 +122,8 @@ public class DTWA extends Basic_DTW {
             DTWD.buildClassifier(cvData);
             DTWI.buildClassifier(cvData);
             
-            minD = nearestNeigboughDistanceD(data, i);
-            minI = nearestNeigboughDistanceI(data, i);
+            minD = nearestNeigboughDistanceD(data, test);
+            minI = nearestNeigboughDistanceI(data, test);
             
             if(data.instance(i).classValue() == DTWD.classifyInstance(data.instance(i))
                     && data.instance(i).classValue() != DTWI.classifyInstance(data.instance(i))){
@@ -97,27 +140,14 @@ public class DTWA extends Basic_DTW {
         return S_Success;
     }
     
-    private double nearestNeigboughDistanceD(Instances data, int test) throws Exception{
-        //put training instances in an array
-        double [][][] trainingData = new double [data.numInstances()-1][][];
-        for(int i=0;i<data.numInstances();i++){
-            if(i!=test){
-                Instance ins= data.instance(i);
-                Instances split=ins.relationalValue(0);
-                double[][] train = new double[split.numInstances()][];
-                 for(int j=0;j<split.numInstances();j++){
-                     train[j]=split.instance(j).toDoubleArray();
-                 }
-                 trainingData[i]=train;
-            }
-        }
-        
+    private double nearestNeigboughDistanceD(Instances data, Instance test) throws Exception{
         //put test instrance in an array
-        Instances testSplit = data.instance(test).relationalValue(0);
+        Instances testSplit = test.relationalValue(0);
         double[][] testInstance = new double[testSplit.numInstances()][];
         for(int j=0;j<testSplit.numInstances();j++){
             testInstance[j]=testSplit.instance(j).toDoubleArray();
         }
+        testInstance = transposeArray(testInstance);
         
         double minValue = Double.MAX_VALUE;
         double temp = 0;
@@ -145,24 +175,9 @@ public class DTWA extends Basic_DTW {
         return array_new;
     }
     
-    private double nearestNeigboughDistanceI(Instances data, int test) throws Exception{
-        //put training instances in an array
-        double [][][] trainingData = new double [data.numInstances()-1][][];
-        for(int i=0;i<data.numInstances();i++){
-            if(i!=test){
-                Instance ins= data.instance(i);
-                Instances split=ins.relationalValue(0);
-                double[][] train = new double[split.numInstances()][];
-                 for(int j=0;j<split.numInstances();j++){
-                     train[j]=split.instance(j).toDoubleArray();
-                 }
-                 train = transposeArray(train);
-                 trainingData[i]=train;
-            }
-        }
-        
+    private double nearestNeigboughDistanceI(Instances data, Instance test) throws Exception{
         //put test instrance in an array
-        Instances testSplit = data.instance(test).relationalValue(0);
+        Instances testSplit = test.relationalValue(0);
         double[][] testInstance = new double[testSplit.numInstances()][];
         for(int j=0;j<testSplit.numInstances();j++){
             testInstance[j]=testSplit.instance(j).toDoubleArray();
@@ -190,7 +205,9 @@ public class DTWA extends Basic_DTW {
     
     @Override
     public double classifyInstance(Instance instance) throws Exception {
-        return DTWA.classifyInstance(instance);
+        setClassifier( trainingInstances,  instance);
+        this.DTWA.buildClassifier(trainingInstances);
+        return this.DTWA.classifyInstance(instance);
     }
 
 
