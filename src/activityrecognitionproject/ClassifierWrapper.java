@@ -177,7 +177,7 @@ public class ClassifierWrapper <C extends weka.classifiers.Classifier> {
         final String COMMA_DELIMITER = ",";
         StringBuilder results = new StringBuilder();
         try {
-                fileWriter = new FileWriter("/Users/phillipperks/Desktop/3rd-Year-Project/results/" + classifierName + "/" + fileName + ".csv");
+                fileWriter = new FileWriter("FinalResults/" + classifierName + "/" + fileName + ".csv");
                 long startTime = System.currentTimeMillis();
                 for(Instance i: test){
                     try {

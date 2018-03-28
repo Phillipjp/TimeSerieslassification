@@ -68,8 +68,11 @@ public class Basic_DTWA extends Basic_DTW {
         int S_dSuccess_Squash = 0;
         Classifier DTWD = new DTWD();
         Classifier DTWI = new DTWI();
+        
         for(int i=0; i<data.numInstances(); i++){
+
             Instances cvData = new Instances (data);
+
             cvData.delete(i);
             DTWD.buildClassifier(cvData);
             DTWI.buildClassifier(cvData);
