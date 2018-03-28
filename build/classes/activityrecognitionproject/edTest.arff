@@ -1,8 +1,0 @@
-@relation MVMotion 
-@attribute Ax0 numeric
-@attribute Ax1 numeric
-@attribute Ax2 numeric
-@attribute activity {Badminton_Smash, Badminton_Clear, Squash_ForehandBoast, Squash_BackhandBoast} 
-@data
-
-1, 1, 1, Squash_ForehandBoast

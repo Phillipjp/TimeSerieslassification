@@ -4,10 +4,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/phillipperks/Desktop/3rd%20Year%20Project/TimeSeriesClassification/TimeSeriesClassification/src/activityrecognitionproject/DataExtrapolation.java</file>
-            <file>file:/Users/phillipperks/Desktop/3rd%20Year%20Project/TimeSeriesClassification/TimeSeriesClassification/src/activityrecognitionproject/ActivityRecognitionProject.java</file>
-            <file>file:/Users/phillipperks/Desktop/3rd%20Year%20Project/TimeSeriesClassification/TimeSeriesClassification/src/activityrecognitionproject/ClassifierWrapper.java</file>
-            <file>file:/Users/phillipperks/Desktop/3rd%20Year%20Project/TimeSeriesClassification/TimeSeriesClassification/src/activityrecognitionproject/MultitoUniArffConverter.java</file>
+            <file>file:/Users/phillipperks/Desktop/3rd-Year-Project/TimeSeriesClassification/TimeSeriesClassification/src/activityrecognitionproject/Basic_DTWA.java</file>
+            <file>file:/Users/phillipperks/Desktop/3rd-Year-Project/TimeSeriesClassification/TimeSeriesClassification/src/activityrecognitionproject/ActivityRecognitionProject.java</file>
+            <file>file:/Users/phillipperks/Desktop/3rd-Year-Project/TimeSeriesClassification/TimeSeriesClassification/src/activityrecognitionproject/Results.java</file>
+            <file>file:/Users/phillipperks/Desktop/3rd-Year-Project/TimeSeriesClassification/TimeSeriesClassification/src/activityrecognitionproject/ClassifierWrapper.java</file>
         </group>
     </open-files>
 </project-private>
