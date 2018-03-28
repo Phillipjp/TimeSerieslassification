@@ -84,19 +84,19 @@ public class KNN_DTWI extends Enhanced_DTWI{
         //find what warp window size gave the most correct results
         int warp = 0;
         int biggest = correct[0];
-        for(int i=0;i<correct.length; i++){
-            System.out.print(i + "\t");
-        }
-         System.out.println("");
+//        for(int i=0;i<correct.length; i++){
+//            System.out.print(i + "\t");
+//        }
+//         System.out.println("");
         for(int i=0; i<correct.length; i++){
-            System.out.print(correct[i] + "\t");
+            //System.out.print(correct[i] + "\t");
             if(biggest < correct[i]){
                 biggest = correct[i];
                 warp = i;
             }
         }
-        System.out.println("");
-        System.out.println(warp);
+        //System.out.println("");
+        //System.out.println(warp);
         this.warp_size =  warp;
     }
     

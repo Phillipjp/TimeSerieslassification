@@ -26,8 +26,8 @@ public class ActivityRecognitionProject {
     public static void main(String[] args) throws Exception {
         
         ///gpfs/home/xju14zpu/AllExperiments/MVMotionUni.arff
-        Instances all = ClassifierTools.loadData("\\\\ueahome4\\stusci3\\xju14zpu\\data\\Documents\\Project\\MVMotionUni.arff");
-        String path="\\\\ueahome4\\stusci3\\xju14zpu\\data\\Documents\\Project\\MVMotionMulti.arff";
+        Instances all = ClassifierTools.loadData("/Users/phillipperks/Desktop/3rd-Year-Project/ARFF_Files/Cross Validation/Combination/MVMotionUni.arff");
+        String path="/Users/phillipperks/Desktop/3rd-Year-Project/ARFF_Files/Cross Validation/Combination/MVMotionMulti.arff";
         Instances multiVariate = ClassifierTools.loadData(path);
         int totalFolds = 30;
         
@@ -204,45 +204,7 @@ public class ActivityRecognitionProject {
             Instances  multiTest = multiData[1];
             
             
-            //Further Experiments
-        //String [][] dataPaths = new String [5][2];
-        dataPaths [0][0] = "Basic DTW";
-        dataPaths[0][1] = "\\\\ueahome4\\stusci3\\xju14zpu\\data\\Documents\\Project\\Quick\\FinalResults\\BASICDTW\\basicDTWTest";
-        dataPaths [1][0] = "DTWD";
-        dataPaths[1][1] = "\\\\ueahome4\\stusci3\\xju14zpu\\data\\Documents\\Project\\Quick\\FinalResults\\DTWD\\DTWDTest";
-        dataPaths [2][0] = "DTWI";
-        dataPaths[2][1] = "\\\\ueahome4\\stusci3\\xju14zpu\\data\\Documents\\Project\\Quick\\FinalResults\\DTWI\\DTWITest";
-        dataPaths [3][0] = "DTWA";
-        dataPaths[3][1] = "\\\\ueahome4\\stusci3\\xju14zpu\\data\\Documents\\Project\\Quick\\FinalResults\\DTWA\\DTWATest";
-        dataPaths [4][0] = "Enhanced DTWI";
-        dataPaths[4][1] = "\\\\ueahome4\\stusci3\\xju14zpu\\data\\Documents\\Project\\Quick\\FinalResults\\EnhancedDTWI\\EnhancedDTWITest";
-//        dataPaths [5][0] = "RANDOMFOREST250";
-//        dataPaths[5][1] = "\\\\ueahome4\\stusci3\\xju14zpu\\data\\Documents\\Project\\Quick\\FinalResults\\RANDOMFOREST250\\randomForestTest";
-//        dataPaths [6][0] = "RANDOMFOREST300";
-//        dataPaths[6][1] = "\\\\ueahome4\\stusci3\\xju14zpu\\data\\Documents\\Project\\Quick\\FinalResults\\RANDOMFOREST300\\randomForestTest";
-//        dataPaths [7][0] = "RANDOMFOREST350";
-//        dataPaths[7][1] = "\\\\ueahome4\\stusci3\\xju14zpu\\data\\Documents\\Project\\Quick\\FinalResults\\RANDOMFOREST350\\randomForestTest";
-//        dataPaths [8][0] = "RANDOMFOREST400";
-//        dataPaths[8][1] = "\\\\ueahome4\\stusci3\\xju14zpu\\data\\Documents\\Project\\Quick\\FinalResults\\RANDOMFOREST400\\randomForestTest";
-//        dataPaths [9][0] = "RANDOMFOREST450";
-//        dataPaths[9][1] = "\\\\ueahome4\\stusci3\\xju14zpu\\data\\Documents\\Project\\Quick\\FinalResults\\RANDOMFOREST450\\randomForestTest";
-//        dataPaths [10][0] = "RANDOMFOREST500";
-//        dataPaths[10][1] = "\\\\ueahome4\\stusci3\\xju14zpu\\data\\Documents\\Project\\Quick\\FinalResults\\RANDOMFOREST500\\randomForestTest";
-        
-        
-        
-        Results.writeTable(dataPaths, "Time Series");
-        
-//        for(int fold=0; fold<totalFolds; fold++){
-//            Instances[] data = InstanceTools.resampleInstances(all, fold, .5);
-//
-//            Instances train = data[0];
-//            Instances test = data[1];
-//            
-//            Instances[] multiData = InstanceTools.resampleInstances(multiVariate, fold, .5);
-//            Instances multiTrain = multiData[0];
-//            Instances  multiTest = multiData[1];
-//            
+ 
 //            
 //            //Further Experiments
 //            aveEuclid = runEuclideanDistance(aveEuclid,test, train, fold);
@@ -312,34 +274,34 @@ public class ActivityRecognitionProject {
 //            aveDTWI = runDTWI(aveDTWI, multiTest, multiTrain, fold);
 //            aveDTWD = runDTWD(aveDTWD, multiTest, multiTrain, fold);
 //            aveDTWA = runDTWA(aveDTWA, multiTest, multiTrain, fold);
-            aveEnhancedDTWA = runEnhancedDTWA(aveEnhancedDTWA, multiTest, multiTrain, fold);
+//            aveEnhancedDTWA = runEnhancedDTWA(aveEnhancedDTWA, multiTest, multiTrain, fold);
 //            aveEnhancedDTWI = runEnhancedDTWI(aveEnhancedDTWI, multiTest, multiTrain, fold);
 //
 //
-////            aveKNNDTWI3 = runKNNDTWI(aveKNNDTWI3, multiTest, multiTrain, fold, 3);
-////            aveKNNDTWI5 = runKNNDTWI(aveKNNDTWI5, multiTest, multiTrain, fold, 5);
-////            aveKNNDTWI7 = runKNNDTWI(aveKNNDTWI7, multiTest, multiTrain, fold, 7);
-////            aveKNNDTWI9 = runKNNDTWI(aveKNNDTWI9, multiTest, multiTrain, fold, 9);
-////            aveKNNDTWI11 = runKNNDTWI(aveKNNDTWI11, multiTest, multiTrain, fold, 11);
-////            aveKNNDTWI13 = runKNNDTWI(aveKNNDTWI7, multiTest, multiTrain, fold, 13);
-////            aveKNNDTWI15 = runKNNDTWI(aveKNNDTWI13, multiTest, multiTrain, fold, 15);
-////            aveKNNDTWI17 = runKNNDTWI(aveKNNDTWI17, multiTest, multiTrain, fold, 17);
-////            aveKNNDTWI19 = runKNNDTWI(aveKNNDTWI19, multiTest, multiTrain, fold, 19);
-////            aveKNNDTWI21 = runKNNDTWI(aveKNNDTWI21, multiTest, multiTrain, fold, 21);
-////            aveKNNDTWI23 = runKNNDTWI(aveKNNDTWI23, multiTest, multiTrain, fold, 23);
-////            aveKNNDTWI25 = runKNNDTWI(aveKNNDTWI25, multiTest, multiTrain, fold, 25);
-////            aveKNNDTWI27 = runKNNDTWI(aveKNNDTWI27, multiTest, multiTrain, fold, 27);
-////            aveKNNDTWI29 = runKNNDTWI(aveKNNDTWI29, multiTest, multiTrain, fold, 29);
-////            aveKNNDTWI31 = runKNNDTWI(aveKNNDTWI31, multiTest, multiTrain, fold, 31);
-////            aveKNNDTWI33 = runKNNDTWI(aveKNNDTWI33, multiTest, multiTrain, fold, 33);
-////            aveKNNDTWI35 = runKNNDTWI(aveKNNDTWI35, multiTest, multiTrain, fold, 35);
-////            aveKNNDTWI37 = runKNNDTWI(aveKNNDTWI37, multiTest, multiTrain, fold, 37);
-////            aveKNNDTWI39 = runKNNDTWI(aveKNNDTWI39, multiTest, multiTrain, fold, 39);
-////            aveKNNDTWI41 = runKNNDTWI(aveKNNDTWI41, multiTest, multiTrain, fold, 41);
-////            aveKNNDTWI43 = runKNNDTWI(aveKNNDTWI43, multiTest, multiTrain, fold, 43);
-////            aveKNNDTWI45 = runKNNDTWI(aveKNNDTWI45, multiTest, multiTrain, fold, 45);
-////            aveKNNDTWI47 = runKNNDTWI(aveKNNDTWI47, multiTest, multiTrain, fold, 47);
-////            aveKNNDTWI49 = runKNNDTWI(aveKNNDTWI49, multiTest, multiTrain, fold, 49);
+            aveKNNDTWI3 = runKNNDTWI(aveKNNDTWI3, multiTest, multiTrain, fold, 3);
+            aveKNNDTWI5 = runKNNDTWI(aveKNNDTWI5, multiTest, multiTrain, fold, 5);
+            aveKNNDTWI7 = runKNNDTWI(aveKNNDTWI7, multiTest, multiTrain, fold, 7);
+            aveKNNDTWI9 = runKNNDTWI(aveKNNDTWI9, multiTest, multiTrain, fold, 9);
+            aveKNNDTWI11 = runKNNDTWI(aveKNNDTWI11, multiTest, multiTrain, fold, 11);
+            aveKNNDTWI13 = runKNNDTWI(aveKNNDTWI13, multiTest, multiTrain, fold, 13);
+            aveKNNDTWI15 = runKNNDTWI(aveKNNDTWI15, multiTest, multiTrain, fold, 15);
+            aveKNNDTWI17 = runKNNDTWI(aveKNNDTWI17, multiTest, multiTrain, fold, 17);
+            aveKNNDTWI19 = runKNNDTWI(aveKNNDTWI19, multiTest, multiTrain, fold, 19);
+            aveKNNDTWI21 = runKNNDTWI(aveKNNDTWI21, multiTest, multiTrain, fold, 21);
+            aveKNNDTWI23 = runKNNDTWI(aveKNNDTWI23, multiTest, multiTrain, fold, 23);
+            aveKNNDTWI25 = runKNNDTWI(aveKNNDTWI25, multiTest, multiTrain, fold, 25);
+            aveKNNDTWI27 = runKNNDTWI(aveKNNDTWI27, multiTest, multiTrain, fold, 27);
+            aveKNNDTWI29 = runKNNDTWI(aveKNNDTWI29, multiTest, multiTrain, fold, 29);
+            aveKNNDTWI31 = runKNNDTWI(aveKNNDTWI31, multiTest, multiTrain, fold, 31);
+            aveKNNDTWI33 = runKNNDTWI(aveKNNDTWI33, multiTest, multiTrain, fold, 33);
+            aveKNNDTWI35 = runKNNDTWI(aveKNNDTWI35, multiTest, multiTrain, fold, 35);
+            aveKNNDTWI37 = runKNNDTWI(aveKNNDTWI37, multiTest, multiTrain, fold, 37);
+            aveKNNDTWI39 = runKNNDTWI(aveKNNDTWI39, multiTest, multiTrain, fold, 39);
+            aveKNNDTWI41 = runKNNDTWI(aveKNNDTWI41, multiTest, multiTrain, fold, 41);
+            aveKNNDTWI43 = runKNNDTWI(aveKNNDTWI43, multiTest, multiTrain, fold, 43);
+            aveKNNDTWI45 = runKNNDTWI(aveKNNDTWI45, multiTest, multiTrain, fold, 45);
+            aveKNNDTWI47 = runKNNDTWI(aveKNNDTWI47, multiTest, multiTrain, fold, 47);
+            aveKNNDTWI49 = runKNNDTWI(aveKNNDTWI49, multiTest, multiTrain, fold, 49);
 //
 //
 //            
@@ -449,12 +411,12 @@ public class ActivityRecognitionProject {
 //        System.out.println("DTWI Sport Accuracy: " + aveDTWI[1]/totalFolds);
 //        System.out.println("");
 
-        System.out.println("DTWA Accuracy: " + aveDTWA[0]/totalFolds);
-        System.out.println("DTWA Sport Accuracy: " + aveDTWA[1]/totalFolds);
-            System.out.println("");
-        System.out.println("Enhanced DTWA Accuracy: " + aveEnhancedDTWA[0]/totalFolds);
-        System.out.println("Enhanced DTWA Sport Accuracy: " + aveEnhancedDTWA[1]/totalFolds);
-        System.out.println("Enhanced DTWA Balanced Accuracy: " + aveEnhancedDTWA[2]/totalFolds);
+//        System.out.println("DTWA Accuracy: " + aveDTWA[0]/totalFolds);
+//        System.out.println("DTWA Sport Accuracy: " + aveDTWA[1]/totalFolds);
+//            System.out.println("");
+//        System.out.println("Enhanced DTWA Accuracy: " + aveEnhancedDTWA[0]/totalFolds);
+//        System.out.println("Enhanced DTWA Sport Accuracy: " + aveEnhancedDTWA[1]/totalFolds);
+//        System.out.println("Enhanced DTWA Balanced Accuracy: " + aveEnhancedDTWA[2]/totalFolds);
 //        System.out.println("");
 //        System.out.println("Enhanced DTWI Accuracy: " + aveEnhancedDTWI[0]/totalFolds);
 //        System.out.println("Enhanced DTWI Sport Accuracy: " + aveEnhancedDTWI[1]/totalFolds);
@@ -469,77 +431,77 @@ public class ActivityRecognitionProject {
 //        System.out.println("");
 ////        
 
-//        System.out.println("KNN_DTWI 3 Accuracy: " + aveKNNDTWI3[0]/totalFolds);
-//        System.out.println("KNN_DTWI 3 Sport Accuracy: " + aveKNNDTWI3[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 5 Accuracy: " + aveKNNDTWI5[0]/totalFolds);
-//        System.out.println("KNN_DTWI 5 Sport Accuracy: " + aveKNNDTWI5[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 7 Accuracy: " + aveKNNDTWI7[0]/totalFolds);
-//        System.out.println("KNN_DTWI 7 Sport Accuracy: " + aveKNNDTWI7[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 9 Accuracy: " + aveKNNDTWI9[0]/totalFolds);
-//        System.out.println("KNN_DTWI 9 Sport Accuracy: " + aveKNNDTWI9[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 11 Accuracy: " + aveKNNDTWI11[0]/totalFolds);
-//        System.out.println("KNN_DTWI 11 Sport Accuracy: " + aveKNNDTWI11[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 13 Accuracy: " + aveKNNDTWI13[0]/totalFolds);
-//        System.out.println("KNN_DTWI 13 Sport Accuracy: " + aveKNNDTWI13[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 15 Accuracy: " + aveKNNDTWI15[0]/totalFolds);
-//        System.out.println("KNN_DTWI 15 Sport Accuracy: " + aveKNNDTWI15[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 17 Accuracy: " + aveKNNDTWI17[0]/totalFolds);
-//        System.out.println("KNN_DTWI 17 Sport Accuracy: " + aveKNNDTWI17[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 19 Accuracy: " + aveKNNDTWI19[0]/totalFolds);
-//        System.out.println("KNN_DTWI 19 Sport Accuracy: " + aveKNNDTWI19[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 21 Accuracy: " + aveKNNDTWI21[0]/totalFolds);
-//        System.out.println("KNN_DTWI 21 Sport Accuracy: " + aveKNNDTWI21[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 23 Accuracy: " + aveKNNDTWI23[0]/totalFolds);
-//        System.out.println("KNN_DTWI 23 Sport Accuracy: " + aveKNNDTWI23[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 25 Accuracy: " + aveKNNDTWI25[0]/totalFolds);
-//        System.out.println("KNN_DTWI 25 Sport Accuracy: " + aveKNNDTWI25[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 27 Accuracy: " + aveKNNDTWI27[0]/totalFolds);
-//        System.out.println("KNN_DTWI 27 Sport Accuracy: " + aveKNNDTWI27[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 29 Accuracy: " + aveKNNDTWI29[0]/totalFolds);
-//        System.out.println("KNN_DTWI 29 Sport Accuracy: " + aveKNNDTWI29[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 31 Accuracy: " + aveKNNDTWI31[0]/totalFolds);
-//        System.out.println("KNN_DTWI 31 Sport Accuracy: " + aveKNNDTWI31[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 33 Accuracy: " + aveKNNDTWI33[0]/totalFolds);
-//        System.out.println("KNN_DTWI 33 Sport Accuracy: " + aveKNNDTWI33[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 35 Accuracy: " + aveKNNDTWI35[0]/totalFolds);
-//        System.out.println("KNN_DTWI 35 Sport Accuracy: " + aveKNNDTWI35[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 37 Accuracy: " + aveKNNDTWI37[0]/totalFolds);
-//        System.out.println("KNN_DTWI 37 Sport Accuracy: " + aveKNNDTWI37[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 39 Accuracy: " + aveKNNDTWI39[0]/totalFolds);
-//        System.out.println("KNN_DTWI 39 Sport Accuracy: " + aveKNNDTWI39[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 41 Accuracy: " + aveKNNDTWI41[0]/totalFolds);
-//        System.out.println("KNN_DTWI 41 Sport Accuracy: " + aveKNNDTWI41[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 43 Accuracy: " + aveKNNDTWI43[0]/totalFolds);
-//        System.out.println("KNN_DTWI 43 Sport Accuracy: " + aveKNNDTWI43[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 45 Accuracy: " + aveKNNDTWI45[0]/totalFolds);
-//        System.out.println("KNN_DTWI 45 Sport Accuracy: " + aveKNNDTWI45[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 47 Accuracy: " + aveKNNDTWI47[0]/totalFolds);
-//        System.out.println("KNN_DTWI 47 Sport Accuracy: " + aveKNNDTWI47[1]/totalFolds);
-//        System.out.println("");
-//        System.out.println("KNN_DTWI 49 Accuracy: " + aveKNNDTWI49[0]/totalFolds);
-//        System.out.println("KNN_DTWI 49 Sport Accuracy: " + aveKNNDTWI49[1]/totalFolds);
+        System.out.println("KNN_DTWI 3 Accuracy: " + aveKNNDTWI3[0]/totalFolds);
+        System.out.println("KNN_DTWI 3 Sport Accuracy: " + aveKNNDTWI3[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 5 Accuracy: " + aveKNNDTWI5[0]/totalFolds);
+        System.out.println("KNN_DTWI 5 Sport Accuracy: " + aveKNNDTWI5[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 7 Accuracy: " + aveKNNDTWI7[0]/totalFolds);
+        System.out.println("KNN_DTWI 7 Sport Accuracy: " + aveKNNDTWI7[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 9 Accuracy: " + aveKNNDTWI9[0]/totalFolds);
+        System.out.println("KNN_DTWI 9 Sport Accuracy: " + aveKNNDTWI9[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 11 Accuracy: " + aveKNNDTWI11[0]/totalFolds);
+        System.out.println("KNN_DTWI 11 Sport Accuracy: " + aveKNNDTWI11[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 13 Accuracy: " + aveKNNDTWI13[0]/totalFolds);
+        System.out.println("KNN_DTWI 13 Sport Accuracy: " + aveKNNDTWI13[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 15 Accuracy: " + aveKNNDTWI15[0]/totalFolds);
+        System.out.println("KNN_DTWI 15 Sport Accuracy: " + aveKNNDTWI15[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 17 Accuracy: " + aveKNNDTWI17[0]/totalFolds);
+        System.out.println("KNN_DTWI 17 Sport Accuracy: " + aveKNNDTWI17[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 19 Accuracy: " + aveKNNDTWI19[0]/totalFolds);
+        System.out.println("KNN_DTWI 19 Sport Accuracy: " + aveKNNDTWI19[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 21 Accuracy: " + aveKNNDTWI21[0]/totalFolds);
+        System.out.println("KNN_DTWI 21 Sport Accuracy: " + aveKNNDTWI21[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 23 Accuracy: " + aveKNNDTWI23[0]/totalFolds);
+        System.out.println("KNN_DTWI 23 Sport Accuracy: " + aveKNNDTWI23[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 25 Accuracy: " + aveKNNDTWI25[0]/totalFolds);
+        System.out.println("KNN_DTWI 25 Sport Accuracy: " + aveKNNDTWI25[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 27 Accuracy: " + aveKNNDTWI27[0]/totalFolds);
+        System.out.println("KNN_DTWI 27 Sport Accuracy: " + aveKNNDTWI27[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 29 Accuracy: " + aveKNNDTWI29[0]/totalFolds);
+        System.out.println("KNN_DTWI 29 Sport Accuracy: " + aveKNNDTWI29[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 31 Accuracy: " + aveKNNDTWI31[0]/totalFolds);
+        System.out.println("KNN_DTWI 31 Sport Accuracy: " + aveKNNDTWI31[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 33 Accuracy: " + aveKNNDTWI33[0]/totalFolds);
+        System.out.println("KNN_DTWI 33 Sport Accuracy: " + aveKNNDTWI33[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 35 Accuracy: " + aveKNNDTWI35[0]/totalFolds);
+        System.out.println("KNN_DTWI 35 Sport Accuracy: " + aveKNNDTWI35[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 37 Accuracy: " + aveKNNDTWI37[0]/totalFolds);
+        System.out.println("KNN_DTWI 37 Sport Accuracy: " + aveKNNDTWI37[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 39 Accuracy: " + aveKNNDTWI39[0]/totalFolds);
+        System.out.println("KNN_DTWI 39 Sport Accuracy: " + aveKNNDTWI39[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 41 Accuracy: " + aveKNNDTWI41[0]/totalFolds);
+        System.out.println("KNN_DTWI 41 Sport Accuracy: " + aveKNNDTWI41[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 43 Accuracy: " + aveKNNDTWI43[0]/totalFolds);
+        System.out.println("KNN_DTWI 43 Sport Accuracy: " + aveKNNDTWI43[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 45 Accuracy: " + aveKNNDTWI45[0]/totalFolds);
+        System.out.println("KNN_DTWI 45 Sport Accuracy: " + aveKNNDTWI45[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 47 Accuracy: " + aveKNNDTWI47[0]/totalFolds);
+        System.out.println("KNN_DTWI 47 Sport Accuracy: " + aveKNNDTWI47[1]/totalFolds);
+        System.out.println("");
+        System.out.println("KNN_DTWI 49 Accuracy: " + aveKNNDTWI49[0]/totalFolds);
+        System.out.println("KNN_DTWI 49 Sport Accuracy: " + aveKNNDTWI49[1]/totalFolds);
 //
 //        
     }
@@ -547,7 +509,7 @@ public class ActivityRecognitionProject {
     public static double [] runKNNDTWI(double aveDTWI[], Instances test, Instances train, int fold, int k) throws Exception{
         ClassifierWrapper dtw = new ClassifierWrapper(new KNN_DTWI(k), test, train);
         dtw.confusionMatrix();
-        dtw.writeCsvFile("KNNDTWITest" + fold, "KNNDTWI" + k);
+        //dtw.writeCsvFile("KNNDTWITest" + fold, "KNNDTWI" + k);
         aveDTWI[0] += dtw.getAccuracy();
         aveDTWI[1] += dtw.getSportAccuracy();
         return aveDTWI;
