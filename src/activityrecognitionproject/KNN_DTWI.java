@@ -114,7 +114,20 @@ public class KNN_DTWI extends Enhanced_DTWI{
             public static class CompareAscending implements Comparator<DistanceAndClass>{
                 @Override
                 public int compare(DistanceAndClass a, DistanceAndClass b){
-                    return (int)(a.distance-b.distance);     
+                    double d1 = a.distance;
+                    double d2 = b.distance;
+                    if (d1 < d2)
+                        return -1;           // Neither val is NaN, thisVal is smaller
+                    if (d1 > d2)
+                        return 1;            // Neither val is NaN, thisVal is larger
+
+                    long thisBits = Double.doubleToLongBits(d1);
+                    long anotherBits = Double.doubleToLongBits(d2);
+
+                    return (thisBits == anotherBits ?  0 : // Values are equal
+                            (thisBits < anotherBits ? -1 : // (-0.0, 0.0) or (!NaN, NaN)
+                             1));                          // (0.0, -0.0) or (NaN, !NaN)
+                       
                 }
             }
     
